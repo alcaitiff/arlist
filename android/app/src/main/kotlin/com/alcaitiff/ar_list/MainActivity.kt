@@ -1,4 +1,4 @@
-package com.example.ar_list
+package com.alcaitiff.ar_list
 
 import io.flutter.embedding.android.FlutterActivity
 
