@@ -29,7 +29,10 @@ void main() {
   test('Categories are comparable', () {
     Category c1 = Category('Teste 1');
     Category c2 = Category('Teste 1');
+    Category c3 = Category('Teste 3');
     expect(c1.compareTo(c2), 0);
+    expect(c1.compareTo(c3), -1);
     expect(c1 == c2, true);
+    expect(c1 == c3, false);
   });
 }
