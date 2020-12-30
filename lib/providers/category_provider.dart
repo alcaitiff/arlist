@@ -25,12 +25,12 @@ class CategoryProvider {
     return this.data;
   }
 
-  void write() {
-    JsonProvider.saveFile(
+  Future<void> write() async {
+    await JsonProvider.saveFile(
         CategoryProvider.fileName, json.encode(this.data.toList()));
   }
 
-  void clear() {
-    JsonProvider.deleteFile(CategoryProvider.fileName);
+  Future<void> clear() async {
+    await JsonProvider.deleteFile(CategoryProvider.fileName);
   }
 }
