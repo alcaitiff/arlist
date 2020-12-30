@@ -11,7 +11,7 @@ ShopList _$ShopListFromJson(Map<String, dynamic> json) {
     json['name'] as String,
   )..items = (json['items'] as List)
       ?.map((e) =>
-          e == null ? null : ShopItem.fromJson(e as Map<String, dynamic>))
+          e == null ? null : ShopListEntry.fromJson(e as Map<String, dynamic>))
       ?.toSet();
 }
 

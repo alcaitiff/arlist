@@ -1,4 +1,5 @@
 import 'package:ar_list/models/shop_item.dart';
+import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'shop_list.g.dart';
@@ -6,7 +7,7 @@ part 'shop_list.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ShopList {
   String name;
-  Set<ShopItem> items = <ShopItem>{};
+  Set<ShopListEntry> items = <ShopListEntry>{};
 
   ShopList(this.name);
 
@@ -15,13 +16,13 @@ class ShopList {
 
   Map<String, dynamic> toJson() => _$ShopListToJson(this);
 
-  ShopList addItem(ShopItem item) {
-    this.items.add(item);
+  ShopList addEntry(ShopListEntry entry) {
+    this.items.add(entry);
     return this;
   }
 
-  ShopList removeItem(ShopItem item) {
-    this.items.remove(item);
+  ShopList removeItem(ShopListEntry entry) {
+    this.items.remove(entry);
     return this;
   }
 }
