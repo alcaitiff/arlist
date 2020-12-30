@@ -5,14 +5,15 @@ import 'package:test/test.dart';
 
 void main() {
   test('ShopItems must be saved', () async {
-    // Create some categories
     ShopItemProvider provider = ShopItemProvider.instance;
     final Set<ShopItem> items = <ShopItem>{};
 
+    // Create some categories
     Category c1, c2;
     c1 = Category('Teste 1');
-    c2 = Category('Teste 4');
+    c2 = Category('Teste 2');
 
+    // Create some items
     items.add(ShopItem('Item 2', c1));
     items.add(ShopItem('Item 2', c2));
     items.add(ShopItem('Item 1', c1));
