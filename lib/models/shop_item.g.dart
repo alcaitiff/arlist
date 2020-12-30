@@ -12,14 +12,10 @@ ShopItem _$ShopItemFromJson(Map<String, dynamic> json) {
     json['category'] == null
         ? null
         : Category.fromJson(json['category'] as Map<String, dynamic>),
-  )
-    ..quantity = json['quantity'] as num
-    ..got = json['got'] as bool;
+  );
 }
 
 Map<String, dynamic> _$ShopItemToJson(ShopItem instance) => <String, dynamic>{
       'name': instance.name,
       'category': instance.category?.toJson(),
-      'quantity': instance.quantity,
-      'got': instance.got,
     };
