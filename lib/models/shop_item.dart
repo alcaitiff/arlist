@@ -7,8 +7,6 @@ part 'shop_item.g.dart';
 class ShopItem {
   String name;
   Category category;
-  num quantity = 1;
-  bool got = false;
 
   ShopItem(this.name, this.category);
 
