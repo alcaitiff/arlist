@@ -13,4 +13,15 @@ class JsonProvider {
     final file = File('${directory.path}/$fileName');
     await file.writeAsString(content);
   }
+
+  static Future<bool> deleteFile(String fileName) async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      final file = File('${directory.path}/$fileName');
+      await file.delete();
+      return true;
+    } catch (on) {
+      return false;
+    }
+  }
 }
