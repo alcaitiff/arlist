@@ -1,5 +1,7 @@
+import 'package:ar_list/models/shop_list.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/screens/create/components/body.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CreateScreen extends StatefulWidget {
   @override
@@ -7,6 +9,9 @@ class CreateScreen extends StatefulWidget {
 }
 
 class _CreateScreenState extends State<CreateScreen> {
+  ShopList _list = ShopList('');
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -21,9 +26,9 @@ class _CreateScreenState extends State<CreateScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Create Screen"),
+        title: Text(AppLocalizations.of(context).create_list),
       ),
-      body: Body(),
+      body: Body(this._formKey),
     );
   }
 }
