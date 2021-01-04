@@ -8,9 +8,7 @@ class ShopListProvider {
   static final ShopListProvider instance = ShopListProvider._();
   Set<ShopList> data;
 
-  ShopListProvider._() {
-    this.read();
-  }
+  ShopListProvider._();
 
   Future<Set<ShopList>> read() async {
     try {
