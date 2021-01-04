@@ -1,5 +1,8 @@
 {
   "lists":"Lists",
   "no_lists":"No lists found. Use the plus button to create some",
-  "loading":"loading..."
+  "loading":"loading...",
+  "create_list": "Create a list",
+  "list_name_hint": "Your list name",
+  "list_name":"Name"
 }
