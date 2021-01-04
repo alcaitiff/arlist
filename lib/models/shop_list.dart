@@ -1,4 +1,3 @@
-import 'package:ar_list/models/shop_item.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:json_annotation/json_annotation.dart';
 
