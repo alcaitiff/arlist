@@ -28,7 +28,7 @@ class _CreateScreenState extends State<CreateScreen> {
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).create_list),
       ),
-      body: Body(this._formKey),
+      body: Body(this._formKey, this._list),
     );
   }
 }

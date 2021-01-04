@@ -1,5 +1,6 @@
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers/shop_list_provider.dart';
+import 'package:ar_list/screens/home/components/lists.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -38,7 +39,7 @@ class _BodyWidgetState extends State<Body> {
       );
     } else {
       return Center(
-        child: Text(AppLocalizations.of(context).lists),
+        child: Lists(lists),
       );
     }
   }

@@ -4,5 +4,7 @@
   "loading":"loading...",
   "create_list": "Create a list",
   "list_name_hint": "Your list name",
-  "list_name":"Name"
+  "list_name":"Name",
+  "list_item":"Item",
+  "save":"Save"
 }

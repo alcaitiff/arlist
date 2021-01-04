@@ -10,6 +10,14 @@ class ShopListProvider {
 
   ShopListProvider._();
 
+  Future<void> add(ShopList list) async {
+    if (this.data == null) {
+      await this.read();
+    }
+    this.data.add(list);
+    return this.write();
+  }
+
   Future<Set<ShopList>> read() async {
     try {
       final jsonString = await JsonProvider.readFile(ShopListProvider.fileName);
