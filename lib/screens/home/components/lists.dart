@@ -1,6 +1,9 @@
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers/shop_list_provider.dart';
+import 'package:ar_list/routes.dart';
+import 'package:ar_list/screens/home/components/confirmation.dart';
 import 'package:flutter/material.dart';
+import 'package:ar_list/generated/l10n.dart';
 
 class Lists extends StatefulWidget {
   final Set<ShopList> lists;
@@ -31,16 +34,7 @@ class _ListsWidgetState extends State<Lists> {
         itemBuilder: /*1*/ (context, i) {
           return Card(
               child: ListTile(
-            trailing: IconButton(
-              icon: const Icon(Icons.delete_forever),
-              color: Colors.red,
-              onPressed: () {
-                setState(() {
-                  lists.remove(lists.elementAt(i));
-                  provider.write();
-                });
-              },
-            ),
+            trailing: deleteButton(i),
             title: Text(
               lists.elementAt(i).name,
               style: _biggerFont,
@@ -50,5 +44,27 @@ class _ListsWidgetState extends State<Lists> {
             },
           ));
         });
+  }
+
+  Widget deleteButton(i) {
+    return IconButton(
+      icon: const Icon(Icons.delete_forever),
+      color: Colors.red,
+      onPressed: () {
+        Confirmation.show(context, S.of(context).remove_list_confirmation, () {
+          setState(() {
+            lists.remove(lists.elementAt(i));
+            provider.write();
+          });
+          Navigator.of(context).pop();
+          if (lists.isEmpty) {
+            Navigator.pushReplacement(
+                context, MaterialPageRoute(builder: routes['/']));
+          }
+        }, () {
+          Navigator.of(context).pop();
+        });
+      },
+    );
   }
 }

@@ -1,0 +1,15 @@
+{
+  "lists": "Lists",
+  "no_lists": "No lists found. Use the plus button to create some",
+  "loading": "loading...",
+  "create_list": "Create a list",
+  "list_name_hint": "Your list name",
+  "list_name": "Name",
+  "list_item": "Item",
+  "save": "Save",
+  "cancel": "Cancel",
+  "confirmation": "Confirmation",
+  "remove_list_confirmation": "The list will be permanently removed",
+  "continue_it": "Continue",
+  "error_empty_value": "Mandatory field"
+}

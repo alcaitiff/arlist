@@ -2,7 +2,7 @@ import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers/shop_list_provider.dart';
 import 'package:ar_list/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:ar_list/generated/l10n.dart';
 
 class Body extends StatelessWidget {
   final GlobalKey<FormState> _formKey;
@@ -22,23 +22,32 @@ class Body extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: <Widget>[
                 new TextFormField(
+                  autofocus: true,
                   initialValue: _list.name,
                   decoration: InputDecoration(
-                    hintText: AppLocalizations.of(context).list_name_hint,
-                    labelText: AppLocalizations.of(context).list_name,
+                    hintText: S.of(context).list_name_hint,
+                    labelText: S.of(context).list_name,
                   ),
                   onChanged: (String newValue) {
-                    _list.name = newValue;
+                    _list.name = newValue.trim();
+                  },
+                  validator: (value) {
+                    if (value.trim().isEmpty) {
+                      return S.of(context).error_empty_value;
+                    }
+                    return null;
                   },
                 ),
                 new Container(
                     child: new RaisedButton(
-                  child: Text(AppLocalizations.of(context).save),
+                  child: Text(S.of(context).save),
                   onPressed: () {
-                    provider.add(_list);
-                    Navigator.pop(context);
-                    Navigator.pushReplacement(
-                        context, MaterialPageRoute(builder: routes['/']));
+                    if (_formKey.currentState.validate()) {
+                      provider.add(_list);
+                      Navigator.pop(context);
+                      Navigator.pushReplacement(
+                          context, MaterialPageRoute(builder: routes['/']));
+                    }
                   },
                 )),
               ],

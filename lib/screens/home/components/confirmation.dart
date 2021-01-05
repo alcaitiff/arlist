@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:ar_list/generated/l10n.dart';
 
 class Confirmation {
-  show(BuildContext context, Function continueCallback,
+  static show(BuildContext context, String msg, Function continueCallback,
       Function cancelCallback) {
     // set up the buttons
     Widget cancelButton = FlatButton(
-      child: Text("Cancel"),
+      child: Text(S.of(context).cancel),
       onPressed: cancelCallback,
     );
     Widget continueButton = FlatButton(
-      child: Text("Continue"),
+      child: Text(S.of(context).continue_it),
       onPressed: continueCallback,
     );
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("AlertDialog"),
-      content: Text(
-          "Would you like to continue learning how to use Flutter alerts?"),
+      title: Text(S.of(context).confirmation),
+      content: Text(msg),
       actions: [
         cancelButton,
         continueButton,
