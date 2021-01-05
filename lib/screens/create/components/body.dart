@@ -11,6 +11,15 @@ class Body extends StatelessWidget {
 
   Body(this._formKey, this._list);
 
+  void submit(context) {
+    if (_formKey.currentState.validate()) {
+      provider.add(_list);
+      Navigator.pop(context);
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: routes['/']));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,6 +40,9 @@ class Body extends StatelessWidget {
                   onChanged: (String newValue) {
                     _list.name = newValue.trim();
                   },
+                  onEditingComplete: () {
+                    submit(context);
+                  },
                   validator: (value) {
                     if (value.trim().isEmpty) {
                       return S.of(context).error_empty_value;
@@ -42,12 +54,7 @@ class Body extends StatelessWidget {
                     child: new RaisedButton(
                   child: Text(S.of(context).save),
                   onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      provider.add(_list);
-                      Navigator.pop(context);
-                      Navigator.pushReplacement(
-                          context, MaterialPageRoute(builder: routes['/']));
-                    }
+                    submit(context);
                   },
                 )),
               ],
