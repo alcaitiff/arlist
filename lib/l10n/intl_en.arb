@@ -3,6 +3,7 @@
   "no_lists": "No lists found. Use the plus button to create some",
   "loading": "loading...",
   "create_list": "Create a list",
+  "rename_list": "Rename list",
   "list_name_hint": "Your list name",
   "list_name": "Name",
   "list_item": "Item",
@@ -11,5 +12,11 @@
   "confirmation": "Confirmation",
   "remove_list_confirmation": "The list will be permanently removed",
   "continue_it": "Continue",
-  "error_empty_value": "Mandatory field"
+  "error_empty_value": "Mandatory field",
+  "copy": "Copy",
+  "copy_sufix": "copy",
+  "rename": "Rename",
+  "remove": "Remove",
+  "error": "Something went wrong",
+  "add_items": "Add items"
 }

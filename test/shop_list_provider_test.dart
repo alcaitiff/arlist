@@ -2,13 +2,13 @@ import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_item.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
-import 'package:ar_list/providers/shop_list_provider.dart';
+import 'package:ar_list/repositories/shop_list_repository.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('ShopLists must be saved', () async {
     // Create some categories
-    ShopListProvider provider = ShopListProvider.instance;
+    ShopListRepository repository = ShopListRepository.instance;
     final Set<ShopList> items = <ShopList>{};
 
     Category c1, c2;
@@ -41,10 +41,10 @@ void main() {
 
     items..add(l1)..add(l2);
 
-    provider.data = items;
-    await provider.write();
+    repository.data = items;
+    await repository.write();
 
-    final Set<ShopList> fromFile = await provider.read();
+    final Set<ShopList> fromFile = await repository.read();
 
     expect(fromFile.length, 2);
 

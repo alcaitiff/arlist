@@ -15,6 +15,10 @@ class ShopList {
 
   Map<String, dynamic> toJson() => _$ShopListToJson(this);
 
+  ShopList clone() {
+    return ShopList.fromJson(this.toJson());
+  }
+
   ShopList addEntry(ShopListEntry entry) {
     this.items.add(entry);
     return this;

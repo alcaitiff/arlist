@@ -1,11 +1,11 @@
 import 'package:ar_list/models/category.dart';
 import 'package:test/test.dart';
-import 'package:ar_list/providers/category_provider.dart';
+import 'package:ar_list/repositories/category_repository.dart';
 
 void main() {
   test('Categories must be saved', () async {
     // Create some categories
-    CategoryProvider provider = CategoryProvider.instance;
+    CategoryRepository repository = CategoryRepository.instance;
     final Set<Category> categories = <Category>{};
 
     categories.add(Category('Teste 1'));
@@ -14,10 +14,10 @@ void main() {
     categories.add(Category('Teste 3'));
     categories.add(Category('Teste 1'));
 
-    provider.data = categories;
-    await provider.write();
+    repository.data = categories;
+    await repository.write();
 
-    final Set<Category> fromFile = await provider.read();
+    final Set<Category> fromFile = await repository.read();
 
     expect(fromFile.length, 4);
 

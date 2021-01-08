@@ -75,6 +75,16 @@ class S {
     );
   }
 
+  /// `Rename list`
+  String get rename_list {
+    return Intl.message(
+      'Rename list',
+      name: 'rename_list',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Your list name`
   String get list_name_hint {
     return Intl.message(
@@ -160,6 +170,66 @@ class S {
     return Intl.message(
       'Mandatory field',
       name: 'error_empty_value',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Copy`
+  String get copy {
+    return Intl.message(
+      'Copy',
+      name: 'copy',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `copy`
+  String get copy_sufix {
+    return Intl.message(
+      'copy',
+      name: 'copy_sufix',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rename`
+  String get rename {
+    return Intl.message(
+      'Rename',
+      name: 'rename',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remove`
+  String get remove {
+    return Intl.message(
+      'Remove',
+      name: 'remove',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong`
+  String get error {
+    return Intl.message(
+      'Something went wrong',
+      name: 'error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add items`
+  String get add_items {
+    return Intl.message(
+      'Add items',
+      name: 'add_items',
       desc: '',
       args: [],
     );

@@ -1,9 +1,11 @@
+import 'package:ar_list/business/ShopList/event.dart';
+import 'package:ar_list/main.dart';
 import 'package:ar_list/models/shop_list.dart';
-import 'package:ar_list/providers/shop_list_provider.dart';
-import 'package:ar_list/routes.dart';
+import 'package:ar_list/providers.dart';
 import 'package:ar_list/screens/home/components/confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/generated/l10n.dart';
+import 'package:hooks_riverpod/all.dart';
 
 class Lists extends StatefulWidget {
   final Set<ShopList> lists;
@@ -17,7 +19,6 @@ class Lists extends StatefulWidget {
 class _ListsWidgetState extends State<Lists> {
   final Set<ShopList> lists;
   final _biggerFont = TextStyle(fontSize: 18.0);
-  final ShopListProvider provider = ShopListProvider.instance;
 
   _ListsWidgetState(this.lists);
 
@@ -28,43 +29,76 @@ class _ListsWidgetState extends State<Lists> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemCount: lists.length,
-        itemBuilder: /*1*/ (context, i) {
-          return Card(
-              child: ListTile(
-            trailing: deleteButton(i),
-            title: Text(
-              lists.elementAt(i).name,
-              style: _biggerFont,
-            ),
-            onTap: () {
-              // open list
-            },
-          ));
+    return Consumer(builder: (context, watch, child) {
+      return ListView.builder(
+          padding: EdgeInsets.all(16.0),
+          itemCount: lists.length,
+          itemBuilder: /*1*/ (context, i) {
+            return Card(
+                child: ListTile(
+              trailing: showPopup(i),
+              title: Text(
+                lists.elementAt(i).name,
+                style: _biggerFont,
+              ),
+              onTap: () {
+                Navigator.pushNamed(context, '/detail',
+                    arguments: lists.elementAt(i));
+              },
+            ));
+          });
+    });
+  }
+
+  Widget showPopup(i) {
+    return PopupMenuButton<int>(
+        icon: const Icon(Icons.more_horiz),
+        itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 0,
+                child: Text(S.of(context).copy),
+              ),
+              PopupMenuItem(
+                value: 1,
+                child: Text(S.of(context).rename),
+              ),
+              PopupMenuItem(
+                value: 2,
+                child: Text(S.of(context).remove),
+              ),
+            ],
+        onSelected: (value) {
+          switch (value) {
+            case 0:
+              copy(i);
+              break;
+            case 1:
+              rename(i);
+              break;
+            case 2:
+              delete(i);
+              break;
+            default:
+          }
         });
   }
 
-  Widget deleteButton(i) {
-    return IconButton(
-      icon: const Icon(Icons.delete_forever),
-      color: Colors.red,
-      onPressed: () {
-        Confirmation.show(context, S.of(context).remove_list_confirmation, () {
-          setState(() {
-            lists.remove(lists.elementAt(i));
-            provider.write();
-          });
-          Navigator.of(context).pop();
-          if (lists.isEmpty) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: routes['/']));
-          }
-        }, () {
-          Navigator.of(context).pop();
-        });
-      },
-    );
+  void rename(i) {
+    Navigator.pushNamed(context, '/rename', arguments: lists.elementAt(i));
+  }
+
+  void copy(i) {
+    ShopList list = lists.elementAt(i).clone();
+    list.name += ' (' + S.of(context).copy_sufix + ')';
+    context.read(shopListNotifierProvider).event(AddEvent(list));
+  }
+
+  void delete(i) {
+    Confirmation.show(context, S.of(context).remove_list_confirmation, () {
+      context.read(shopListNotifierProvider).event(RemoveEvent(i));
+      Navigator.of(context).pop();
+    }, () {
+      Navigator.of(context).pop();
+    });
   }
 }

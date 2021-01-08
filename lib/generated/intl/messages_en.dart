@@ -21,10 +21,14 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "add_items" : MessageLookupByLibrary.simpleMessage("Add items"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Cancel"),
     "confirmation" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "continue_it" : MessageLookupByLibrary.simpleMessage("Continue"),
+    "copy" : MessageLookupByLibrary.simpleMessage("Copy"),
+    "copy_sufix" : MessageLookupByLibrary.simpleMessage("copy"),
     "create_list" : MessageLookupByLibrary.simpleMessage("Create a list"),
+    "error" : MessageLookupByLibrary.simpleMessage("Something went wrong"),
     "error_empty_value" : MessageLookupByLibrary.simpleMessage("Mandatory field"),
     "list_item" : MessageLookupByLibrary.simpleMessage("Item"),
     "list_name" : MessageLookupByLibrary.simpleMessage("Name"),
@@ -32,7 +36,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "lists" : MessageLookupByLibrary.simpleMessage("Lists"),
     "loading" : MessageLookupByLibrary.simpleMessage("loading..."),
     "no_lists" : MessageLookupByLibrary.simpleMessage("No lists found. Use the plus button to create some"),
+    "remove" : MessageLookupByLibrary.simpleMessage("Remove"),
     "remove_list_confirmation" : MessageLookupByLibrary.simpleMessage("The list will be permanently removed"),
+    "rename" : MessageLookupByLibrary.simpleMessage("Rename"),
+    "rename_list" : MessageLookupByLibrary.simpleMessage("Rename list"),
     "save" : MessageLookupByLibrary.simpleMessage("Save")
   };
 }

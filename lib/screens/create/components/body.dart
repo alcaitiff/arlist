@@ -1,5 +1,5 @@
 import 'package:ar_list/models/shop_list.dart';
-import 'package:ar_list/providers/shop_list_provider.dart';
+import 'package:ar_list/repositories/shop_list_repository.dart';
 import 'package:ar_list/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/generated/l10n.dart';
@@ -7,13 +7,13 @@ import 'package:ar_list/generated/l10n.dart';
 class Body extends StatelessWidget {
   final GlobalKey<FormState> _formKey;
   final ShopList _list;
-  final ShopListProvider provider = ShopListProvider.instance;
+  final ShopListRepository repository = ShopListRepository.instance;
 
   Body(this._formKey, this._list);
 
   void submit(context) {
     if (_formKey.currentState.validate()) {
-      provider.add(_list);
+      repository.add(_list);
       Navigator.pop(context);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: routes['/']));
