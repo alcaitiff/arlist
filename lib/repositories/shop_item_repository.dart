@@ -10,6 +10,22 @@ class ShopItemRepository {
 
   ShopItemRepository._();
 
+  Future<Set<ShopItem>> add(ShopItem item) async {
+    if (this.data == null) {
+      await this.read();
+    }
+    this.data.add(item);
+    return this.write();
+  }
+
+  Future<Set<ShopItem>> removeAt(int i) async {
+    if (this.data == null) {
+      await this.read();
+    }
+    this.data.remove(this.data.elementAt(i));
+    return this.write();
+  }
+
   Future<Set<ShopItem>> read() async {
     try {
       final jsonString =

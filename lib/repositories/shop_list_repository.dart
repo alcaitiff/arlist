@@ -4,7 +4,7 @@ import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/repositories/json_repository.dart';
 
 class ShopListRepository {
-  static const fileName = 'shop_item.json';
+  static const fileName = 'shop_list.json';
   static final ShopListRepository instance = ShopListRepository._();
   Set<ShopList> data;
 
