@@ -18,5 +18,10 @@
   "rename": "Rename",
   "remove": "Remove",
   "error": "Something went wrong",
-  "add_items": "Add items"
+  "add_items": "Add items",
+  "left_items": "items",
+  "asc": "A...Z",
+  "desc": "Z...A",
+  "item_name_hint": "Filter the list or add a new",
+  "item_name": "item"
 }

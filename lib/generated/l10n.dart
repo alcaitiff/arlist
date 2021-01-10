@@ -234,6 +234,56 @@ class S {
       args: [],
     );
   }
+
+  /// `items`
+  String get left_items {
+    return Intl.message(
+      'items',
+      name: 'left_items',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A...Z`
+  String get asc {
+    return Intl.message(
+      'A...Z',
+      name: 'asc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Z...A`
+  String get desc {
+    return Intl.message(
+      'Z...A',
+      name: 'desc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter the list or add a new`
+  String get item_name_hint {
+    return Intl.message(
+      'Filter the list or add a new',
+      name: 'item_name_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `item`
+  String get item_name {
+    return Intl.message(
+      'item',
+      name: 'item_name',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
