@@ -51,7 +51,7 @@ class Body extends StatelessWidget {
                   },
                 ),
                 new Container(
-                    child: new RaisedButton(
+                    child: new ElevatedButton(
                   child: Text(S.of(context).save),
                   onPressed: () {
                     submit(context);
