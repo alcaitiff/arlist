@@ -1,35 +1,21 @@
+import 'package:ar_list/business/ShopList/event.dart';
 import 'package:ar_list/models/shop_list.dart';
+import 'package:ar_list/providers.dart';
 import 'package:ar_list/repositories/shop_list_repository.dart';
 import 'package:ar_list/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_list/generated/l10n.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
 
-class Body extends StatefulWidget {
+class Body extends HookWidget {
   final GlobalKey<FormState> formKey;
   final ShopList list;
 
-  @override
-  _BodyState createState() => _BodyState();
-
   Body(this.formKey, this.list);
-}
-
-class _BodyState extends State<Body> {
-  final ShopListRepository repository = ShopListRepository.instance;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
 
   void submit(context) {
-    if (widget.formKey.currentState.validate()) {
-      repository.write();
+    if (formKey.currentState.validate()) {
+      context.read(shopListNotifierProvider).event(WriteEvent());
       Navigator.pop(context);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: routes['/']));
@@ -42,16 +28,16 @@ class _BodyState extends State<Body> {
         top: false,
         bottom: false,
         child: new Form(
-            key: widget.formKey,
+            key: formKey,
             child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                itemCount: widget.list.items.length,
+                itemCount: list.items.length,
                 itemBuilder: /*1*/ (context, i) {
                   return Card(
                       child: ListTile(
                     //trailing: showPopup(i),
                     title: Text(
-                      widget.list.items.elementAt(i).item.name,
+                      list.items.elementAt(i).item.name,
                       //style: _biggerFont,
                     ),
                     onTap: () {

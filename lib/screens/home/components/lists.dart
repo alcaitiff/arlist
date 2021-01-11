@@ -1,8 +1,7 @@
 import 'package:ar_list/business/ShopList/event.dart';
-import 'package:ar_list/main.dart';
+import 'package:ar_list/components/confirmation.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers.dart';
-import 'package:ar_list/screens/home/components/confirmation.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/generated/l10n.dart';
 import 'package:hooks_riverpod/all.dart';

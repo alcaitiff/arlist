@@ -11,15 +11,16 @@ import 'package:hooks_riverpod/all.dart';
 
 class Body extends HookWidget {
   final GlobalKey<FormState> formKey;
-  final ShopList list;
+  final StateProvider<ShopList> listProvider;
 
-  Body(this.formKey, this.list);
-
-  void submit(filter) {}
-
+  Body(this.formKey, this.listProvider);
+// TODO: refresh da lista ao remover, ver o dismiss com texto embaixo
   @override
   Widget build(BuildContext context) {
     final items = useProvider(filteredShopItems);
+    final lp = useProvider(listProvider);
+    final inList = items.where((element) => lp.state.contains(element));
+    final outList = items.where((element) => !lp.state.contains(element));
     final newTodoController = useTextEditingController();
     final filter = useProvider(shopItemFilter);
     return Consumer(builder: (context, watch, child) {
@@ -39,9 +40,13 @@ class Body extends HookWidget {
                     filter.state = newValue.trim();
                   },
                   onEditingComplete: () {
-                    submit(filter);
-                    filter.state = '';
-                    newTodoController.clear();
+                    if (formKey.currentState.validate()) {
+                      context
+                          .read(shopItemNotifierProvider)
+                          .event(AddEvent(ShopItem(filter.state, null)));
+                      filter.state = '';
+                      newTodoController.clear();
+                    }
                   },
                   validator: (value) {
                     if (value.trim().isEmpty) {
@@ -52,16 +57,28 @@ class Body extends HookWidget {
                 ),
                 const SizedBox(height: 20),
                 const Toolbar(),
-                for (var i = 0; i < items.length; i++) ...[
+                for (var i = 0; i < inList.length; i++) ...[
                   if (i > 0) const Divider(height: 0),
                   Dismissible(
-                    key: ValueKey(items.elementAt(i).hashCode),
+                    key: ValueKey(inList.elementAt(i).hashCode),
                     onDismissed: (_) {
                       context
                           .read(shopItemNotifierProvider)
-                          .event(RemoveEvent(i));
+                          .event(RemoveAtEvent(i));
                     },
-                    child: ShopItemCard(items.elementAt(i), list),
+                    child: ShopItemCard(inList.elementAt(i), listProvider),
+                  ),
+                ],
+                for (var i = 0; i < outList.length; i++) ...[
+                  if (i > 0) const Divider(height: 0),
+                  Dismissible(
+                    key: ValueKey(outList.elementAt(i).hashCode),
+                    onDismissed: (_) {
+                      context
+                          .read(shopItemNotifierProvider)
+                          .event(RemoveAtEvent(i));
+                    },
+                    child: ShopItemCard(outList.elementAt(i), listProvider),
                   ),
                 ],
               ]));

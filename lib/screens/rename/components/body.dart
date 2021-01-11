@@ -62,7 +62,7 @@ class _BodyWidgetState extends State<Body> {
                     },
                   ),
                   new Container(
-                      child: new RaisedButton(
+                      child: new ElevatedButton(
                     child: Text(S.of(context).save),
                     onPressed: () {
                       submit(tmpName);
