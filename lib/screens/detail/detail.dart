@@ -32,7 +32,8 @@ class _DetailScreenState extends State<DetailScreen> {
       body: Body(_formKey, _list),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/add', arguments: _list);
+          Navigator.pushNamed(context, '/add', arguments: _list)
+              .whenComplete(() => setState(() {}));
         },
         child: Icon(Icons.add),
       ),
