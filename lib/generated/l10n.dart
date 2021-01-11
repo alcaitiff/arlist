@@ -284,6 +284,16 @@ class S {
       args: [],
     );
   }
+
+  /// `The item will be permanently removed`
+  String get remove_item_confirmation {
+    return Intl.message(
+      'The item will be permanently removed',
+      name: 'remove_item_confirmation',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

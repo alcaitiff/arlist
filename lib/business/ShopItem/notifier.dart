@@ -21,8 +21,10 @@ class ShopItemNotifier extends StateNotifier<ShopItemState> {
         item = await _repository.write();
       } else if (event is AddEvent) {
         item = await _repository.add(event.item);
-      } else if (event is RemoveEvent) {
+      } else if (event is RemoveAtEvent) {
         item = await _repository.removeAt(event.i);
+      } else if (event is RemoveEvent) {
+        item = await _repository.remove(event.item);
       }
       if (item.length == 0) {
         state = ShopItemEmptyState();

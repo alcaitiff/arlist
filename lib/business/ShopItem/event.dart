@@ -14,6 +14,11 @@ class AddEvent extends ShopItemEvent {
 }
 
 class RemoveEvent extends ShopItemEvent {
+  final ShopItem item;
+  RemoveEvent(this.item);
+}
+
+class RemoveAtEvent extends ShopItemEvent {
   final int i;
-  RemoveEvent(this.i);
+  RemoveAtEvent(this.i);
 }

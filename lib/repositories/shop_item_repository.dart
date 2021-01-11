@@ -26,6 +26,15 @@ class ShopItemRepository {
     return this.write();
   }
 
+  Future<Set<ShopItem>> remove(ShopItem item) async {
+    if (this.data == null) {
+      await this.read();
+    }
+    print('removing: ${item.toJson()}');
+    this.data.remove(item);
+    return this.write();
+  }
+
   Future<Set<ShopItem>> read() async {
     try {
       final jsonString =
