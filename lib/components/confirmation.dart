@@ -5,11 +5,11 @@ class Confirmation {
   static show(BuildContext context, String msg, Function continueCallback,
       Function cancelCallback) {
     // set up the buttons
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text(S.of(context).cancel),
       onPressed: cancelCallback,
     );
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text(S.of(context).continue_it),
       onPressed: continueCallback,
     );
