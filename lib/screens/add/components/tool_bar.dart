@@ -32,23 +32,17 @@ class Toolbar extends HookWidget {
           ),
           Tooltip(
             message: S.of(context).asc,
-            child: TextButton(
-              onPressed: () => sortType.state = SortType.alpha,
-              style: TextButton.styleFrom(
-                  visualDensity: VisualDensity.compact,
-                  primary: textColorFor(SortType.alpha)),
-              child: Text(S.of(context).asc),
-            ),
+            child: IconButton(
+                icon: Icon(Icons.arrow_downward_rounded),
+                onPressed: () => sortType.state = SortType.alpha,
+                color: textColorFor(SortType.alpha)),
           ),
           Tooltip(
             message: S.of(context).desc,
-            child: TextButton(
-              onPressed: () => sortType.state = SortType.inversedAlpha,
-              style: TextButton.styleFrom(
-                  visualDensity: VisualDensity.compact,
-                  primary: textColorFor(SortType.inversedAlpha)),
-              child: Text(S.of(context).desc),
-            ),
+            child: IconButton(
+                icon: Icon(Icons.arrow_upward_rounded),
+                onPressed: () => sortType.state = SortType.inversedAlpha,
+                color: textColorFor(SortType.inversedAlpha)),
           ),
         ],
       ),
