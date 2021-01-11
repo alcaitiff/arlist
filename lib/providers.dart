@@ -36,15 +36,17 @@ final filteredShopItems = Provider<List<ShopItem>>((ref) {
   final sortType = ref.watch(shopItemSortType);
 
   if (items != null && items.length > 0) {
-    final result =
-        items.where((item) => item.name.contains(filter.state)).toList();
+    final result = items
+        .where((item) =>
+            item.name.toLowerCase().contains(filter.state.toLowerCase()))
+        .toList();
     if (sortType.state == SortType.alpha) {
       result.sort((a, b) {
-        return a.name.compareTo(b.name);
+        return a.name.toLowerCase().compareTo(b.name.toString().toLowerCase());
       });
     } else if (sortType.state == SortType.inversedAlpha) {
       result.sort((a, b) {
-        return b.name.compareTo(a.name);
+        return b.name.toLowerCase().compareTo(a.name.toString().toLowerCase());
       });
     }
     return result;

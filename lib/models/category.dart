@@ -15,7 +15,10 @@ class Category implements Comparable {
 
   @override
   int compareTo(other) {
-    return this.name.compareTo(other.name);
+    return this
+        .name
+        .toLowerCase()
+        .compareTo(other.name.toString().toLowerCase());
   }
 
   @override

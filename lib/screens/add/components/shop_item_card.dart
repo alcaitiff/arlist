@@ -23,6 +23,8 @@ class ShopItemCard extends HookWidget {
           .read(shopItemNotifierProvider)
           .event(ShopItemEvent.RemoveEvent(item));
       context.read(shopListNotifierProvider).event(WriteEvent());
+      //To refresh
+      context.read(shopItemFilter).state += '';
       listController.state = list;
       Navigator.of(context).pop();
     }, () {

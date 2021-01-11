@@ -1,19 +1,25 @@
+import 'package:ar_list/business/ShopList/event.dart';
 import 'package:ar_list/models/shop_list.dart';
-import 'package:ar_list/repositories/shop_list_repository.dart';
+import 'package:ar_list/providers.dart';
 import 'package:ar_list/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/generated/l10n.dart';
+import 'package:hooks_riverpod/all.dart';
 
-class Body extends StatelessWidget {
-  final GlobalKey<FormState> _formKey;
+class Body extends StatefulWidget {
   final ShopList _list;
-  final ShopListRepository repository = ShopListRepository.instance;
+  Body(this._list);
+  @override
+  _BodyWidgetState createState() => _BodyWidgetState();
+}
 
-  Body(this._formKey, this._list);
+class _BodyWidgetState extends State<Body> {
+  final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  _BodyWidgetState();
 
-  void submit(context) {
+  void submit() {
     if (_formKey.currentState.validate()) {
-      repository.add(_list);
+      context.read(shopListNotifierProvider).event(AddEvent(widget._list));
       Navigator.pop(context);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: routes['/']));
@@ -22,42 +28,44 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        top: false,
-        bottom: false,
-        child: new Form(
-            key: _formKey,
-            child: new ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              children: <Widget>[
-                new TextFormField(
-                  autofocus: true,
-                  initialValue: _list.name,
-                  decoration: InputDecoration(
-                    hintText: S.of(context).list_name_hint,
-                    labelText: S.of(context).list_name,
+    return Consumer(builder: (context, watch, child) {
+      return SafeArea(
+          top: false,
+          bottom: false,
+          child: new Form(
+              key: _formKey,
+              child: new ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                children: <Widget>[
+                  new TextFormField(
+                    autofocus: true,
+                    initialValue: widget._list.name,
+                    decoration: InputDecoration(
+                      hintText: S.of(context).list_name_hint,
+                      labelText: S.of(context).list_name,
+                    ),
+                    onChanged: (String newValue) {
+                      widget._list.name = newValue.trim();
+                    },
+                    onEditingComplete: () {
+                      submit();
+                    },
+                    validator: (value) {
+                      if (value.trim().isEmpty) {
+                        return S.of(context).error_empty_value;
+                      }
+                      return null;
+                    },
                   ),
-                  onChanged: (String newValue) {
-                    _list.name = newValue.trim();
-                  },
-                  onEditingComplete: () {
-                    submit(context);
-                  },
-                  validator: (value) {
-                    if (value.trim().isEmpty) {
-                      return S.of(context).error_empty_value;
-                    }
-                    return null;
-                  },
-                ),
-                new Container(
-                    child: new ElevatedButton(
-                  child: Text(S.of(context).save),
-                  onPressed: () {
-                    submit(context);
-                  },
-                )),
-              ],
-            )));
+                  new Container(
+                      child: new ElevatedButton(
+                    child: Text(S.of(context).save),
+                    onPressed: () {
+                      submit();
+                    },
+                  )),
+                ],
+              )));
+    });
   }
 }

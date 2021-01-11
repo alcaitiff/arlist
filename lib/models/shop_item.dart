@@ -18,7 +18,10 @@ class ShopItem implements Comparable {
   @override
   int compareTo(other) {
     if (this.category == other.category) {
-      return this.name.compareTo(other.name);
+      return this
+          .name
+          .toLowerCase()
+          .compareTo(other.name.toString().toLowerCase());
     } else {
       return this.category.compareTo(other.category);
     }

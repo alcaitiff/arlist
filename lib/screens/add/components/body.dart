@@ -60,23 +60,20 @@ class Body extends HookWidget {
                 for (var i = 0; i < inList.length; i++) ...[
                   if (i > 0) const Divider(height: 0),
                   Dismissible(
-                    key: ValueKey(inList.elementAt(i).hashCode),
-                    onDismissed: (_) {
-                      context
-                          .read(shopItemNotifierProvider)
-                          .event(RemoveAtEvent(i));
-                    },
+                    key: UniqueKey(),
+                    onDismissed: (_) {},
                     child: ShopItemCard(inList.elementAt(i), listProvider),
                   ),
                 ],
                 for (var i = 0; i < outList.length; i++) ...[
                   if (i > 0) const Divider(height: 0),
                   Dismissible(
-                    key: ValueKey(outList.elementAt(i).hashCode),
+                    key: UniqueKey(),
                     onDismissed: (_) {
-                      context
-                          .read(shopItemNotifierProvider)
-                          .event(RemoveAtEvent(i));
+                      // context
+                      //     .read(shopItemNotifierProvider)
+                      //     .event(RemoveEvent(outList.elementAt(i)));
+                      // context.read(shopItemFilter).state += '';
                     },
                     child: ShopItemCard(outList.elementAt(i), listProvider),
                   ),
