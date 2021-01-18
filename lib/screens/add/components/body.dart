@@ -1,4 +1,5 @@
 import 'package:ar_list/business/ShopItem/event.dart';
+import 'package:ar_list/business/ShopList/event.dart' as ListEvent;
 import 'package:ar_list/models/shop_item.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers.dart';
@@ -31,7 +32,6 @@ class Body extends HookWidget {
               children: <Widget>[
                 new TextFormField(
                   controller: newTodoController,
-                  autofocus: true,
                   decoration: InputDecoration(
                     hintText: S.of(context).item_name_hint,
                     labelText: S.of(context).item_name,
@@ -41,11 +41,17 @@ class Body extends HookWidget {
                   },
                   onEditingComplete: () {
                     if (formKey.currentState.validate()) {
+                      ShopItem item = ShopItem(filter.state, null);
                       context
                           .read(shopItemNotifierProvider)
-                          .event(AddEvent(ShopItem(filter.state, null)));
+                          .event(AddEvent(item));
+                      lp.state.addShopItem(item);
+                      context
+                          .read(shopListNotifierProvider)
+                          .event(ListEvent.WriteEvent());
                       filter.state = '';
                       newTodoController.clear();
+                      FocusScope.of(context).unfocus();
                     }
                   },
                   validator: (value) {
