@@ -10,11 +10,15 @@ class AddScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ShopList _list = ModalRoute.of(context).settings.arguments;
     final listProvider = StateProvider<ShopList>((ref) => _list);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(S.of(context).add_items),
-      ),
-      body: Body(_formKey, listProvider),
-    );
+    return GestureDetector(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(S.of(context).add_items),
+          ),
+          body: Body(_formKey, listProvider),
+        ),
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        });
   }
 }
