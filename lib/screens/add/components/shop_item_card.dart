@@ -46,14 +46,29 @@ class ShopItemCard extends HookWidget {
           leading: list.contains(item)
               ? Icon(Icons.remove, color: Theme.of(context).hintColor)
               : Icon(Icons.add, color: Theme.of(context).disabledColor),
-          title: Text(
-            item.name,
-            style: TextStyle(
-                color: list.contains(item)
-                    ? Theme.of(context).primaryColor
-                    : Theme.of(context).disabledColor),
-            //style: _biggerFont,
-          ),
+          title: Row(children: [
+            Text(
+              item.name,
+              style: TextStyle(
+                  color: list.contains(item)
+                      ? Theme.of(context).primaryColor
+                      : Theme.of(context).disabledColor),
+              //style: _biggerFont,
+            ),
+            if (item.category != null)
+              Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.only(right: 0),
+                      child: Text(
+                        item.category.name,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Theme.of(context).disabledColor,
+                            fontSize: 11,
+                            fontStyle: FontStyle.italic),
+                        //style: _biggerFont,
+                      )))
+          ]),
           onTap: () {
             list.contains(item)
                 ? list.removeShopItem(item)

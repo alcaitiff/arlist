@@ -15,7 +15,6 @@ class Body extends HookWidget {
   final StateProvider<ShopList> listProvider;
 
   Body(this.formKey, this.listProvider);
-// TODO: refresh da lista ao remover, ver o dismiss com texto embaixo
   @override
   Widget build(BuildContext context) {
     final items = useProvider(filteredShopItems);
@@ -24,6 +23,7 @@ class Body extends HookWidget {
     final outList = items.where((element) => !lp.state.contains(element));
     final textController = useTextEditingController();
     final filter = useProvider(shopItemFilter);
+    final cf = useProvider(categoryFilter);
     return Consumer(builder: (context, watch, child) {
       return new Form(
           key: formKey,
@@ -41,7 +41,8 @@ class Body extends HookWidget {
                   },
                   onEditingComplete: () {
                     if (formKey.currentState.validate()) {
-                      ShopItem item = ShopItem(filter.state, null);
+                      ShopItem item = ShopItem(
+                          filter.state, context.read(currentCategory).state);
                       context
                           .read(shopItemNotifierProvider)
                           .event(AddEvent(item));
@@ -61,8 +62,8 @@ class Body extends HookWidget {
                     return null;
                   },
                 ),
-                const SizedBox(height: 20),
                 const Toolbar(),
+                const SizedBox(height: 5),
                 for (var i = 0; i < inList.length; i++) ...[
                   if (i > 0) const Divider(height: 0),
                   Dismissible(

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_item.dart';
 import 'package:ar_list/repositories/json_repository.dart';
 
@@ -30,7 +31,6 @@ class ShopItemRepository {
     if (this.data == null) {
       await this.read();
     }
-    print('removing: ${item.toJson()}');
     this.data.remove(item);
     return this.write();
   }

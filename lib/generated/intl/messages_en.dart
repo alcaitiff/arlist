@@ -21,9 +21,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static _notInlinedMessages(_) => <String, Function> {
+    "add" : MessageLookupByLibrary.simpleMessage("add"),
     "add_items" : MessageLookupByLibrary.simpleMessage("Add items"),
     "asc" : MessageLookupByLibrary.simpleMessage("A...Z"),
     "cancel" : MessageLookupByLibrary.simpleMessage("Cancel"),
+    "category" : MessageLookupByLibrary.simpleMessage("category"),
     "confirmation" : MessageLookupByLibrary.simpleMessage("Confirmation"),
     "continue_it" : MessageLookupByLibrary.simpleMessage("Continue"),
     "copy" : MessageLookupByLibrary.simpleMessage("Copy"),

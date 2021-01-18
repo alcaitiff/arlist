@@ -27,5 +27,7 @@
   "filter": "Filtro",
   "quantity": "Quantidade",
   "item_name": "item",
-  "remove_item_confirmation": "O item será removido"
+  "remove_item_confirmation": "O item será removido",
+  "category": "categoria",
+  "add": "adicionar"
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/repositories/json_repository.dart';
 

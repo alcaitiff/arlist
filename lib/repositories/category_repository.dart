@@ -19,9 +19,34 @@ class CategoryRepository {
           .toSet();
     } catch (error) {
       this.data = <Category>{};
+      this.data.add(Category(''));
       this.write();
     }
     return this.data;
+  }
+
+  Future<Set<Category>> add(Category item) async {
+    if (this.data == null) {
+      await this.read();
+    }
+    this.data.add(item);
+    return this.write();
+  }
+
+  Future<Set<Category>> removeAt(int i) async {
+    if (this.data == null) {
+      await this.read();
+    }
+    this.data.remove(this.data.elementAt(i));
+    return this.write();
+  }
+
+  Future<Set<Category>> remove(Category item) async {
+    if (this.data == null) {
+      await this.read();
+    }
+    this.data.remove(item);
+    return this.write();
   }
 
   Future<Set<Category>> write() async {
@@ -31,7 +56,8 @@ class CategoryRepository {
   }
 
   Future<Set<Category>> clear() async {
-    await JsonRepository.deleteFile(CategoryRepository.fileName);
-    return this.data;
+    this.data = <Category>{};
+    this.data.add(Category(''));
+    return this.write();
   }
 }

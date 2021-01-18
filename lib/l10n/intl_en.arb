@@ -27,5 +27,7 @@
   "filter": "Filter",
   "quantity": "Quantity",
   "item_name": "item",
-  "remove_item_confirmation": "The item will be permanently removed"
+  "remove_item_confirmation": "The item will be permanently removed",
+  "category": "category",
+  "add": "add"
 }

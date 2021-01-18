@@ -1,8 +1,11 @@
+import 'package:ar_list/business/Category/notifier.dart';
 import 'package:ar_list/business/ShopItem/notifier.dart';
 import 'package:ar_list/business/ShopList/notifier.dart';
+import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_item.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
+import 'package:ar_list/repositories/category_repository.dart';
 import 'package:ar_list/repositories/shop_item_repository.dart';
 import 'package:ar_list/repositories/shop_list_repository.dart';
 import 'package:hooks_riverpod/all.dart';
@@ -13,6 +16,14 @@ final shopListRepositoryProvider = Provider<ShopListRepository>(
 
 final shopListNotifierProvider = StateNotifierProvider(
   (ref) => ShopListNotifier(ref.watch(shopListRepositoryProvider)),
+);
+
+final categoryRepositoryProvider = Provider<CategoryRepository>(
+  (ref) => CategoryRepository.instance,
+);
+
+final categoryNotifierProvider = StateNotifierProvider(
+  (ref) => CategoryNotifier(ref.watch(categoryRepositoryProvider)),
 );
 
 final shopItemRepositoryProvider = Provider<ShopItemRepository>(
@@ -31,6 +42,9 @@ enum SortType {
 }
 
 final currentList = StateProvider<ShopList>((ref) => ShopList(''));
+
+final currentCategory = StateProvider<Category>((ref) => Category(''));
+final categoryFilter = StateProvider((ref) => '');
 
 final entryFilter = StateProvider((ref) => '');
 final entrySortType = StateProvider((ref) => SortType.alpha);
@@ -68,6 +82,7 @@ final shopItemSortType = StateProvider((ref) => SortType.alpha);
 
 final filteredShopItems = Provider<List<ShopItem>>((ref) {
   final filter = ref.watch(shopItemFilter);
+  final category = ref.watch(currentCategory);
   final items = ref.watch(shopItemRepositoryProvider).data;
   final sortType = ref.watch(shopItemSortType);
 
@@ -75,7 +90,13 @@ final filteredShopItems = Provider<List<ShopItem>>((ref) {
     final result = items
         .where((item) =>
             item.name.toLowerCase().contains(filter.state.toLowerCase()))
-        .toList();
+        .where((item) {
+      return (item.category == null && category.state == null) ||
+          category.state == null ||
+          category.state.name == '' ||
+          item.category == null ||
+          item.category == category.state;
+    }).toList();
     if (sortType.state == SortType.alpha) {
       result.sort((a, b) {
         return a.name.toLowerCase().compareTo(b.name.toString().toLowerCase());

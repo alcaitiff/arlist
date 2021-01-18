@@ -1,5 +1,6 @@
 import 'package:ar_list/business/ShopList/event.dart';
 import 'package:ar_list/business/ShopItem/event.dart' as ShopItemEvent;
+import 'package:ar_list/business/Category/event.dart' as CategoryEvent;
 import 'package:ar_list/business/ShopList/state.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers.dart';
@@ -21,6 +22,9 @@ class Body extends HookWidget {
             context
                 .read(shopItemNotifierProvider)
                 .event(ShopItemEvent.ReadEvent());
+            context
+                .read(categoryNotifierProvider)
+                .event(CategoryEvent.ReadEvent());
           });
           return Center(child: Text(S.of(context).loading));
         } else if (state is ShopListEmptyState) {

@@ -1,3 +1,4 @@
+import 'package:ar_list/components/category_selector.dart';
 import 'package:ar_list/providers.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,14 @@ class Toolbar extends HookWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Text(
+            '${list.items.length} ${S.of(context).left_items}',
+            overflow: TextOverflow.ellipsis,
+          ),
           Expanded(
-            child: Text(
-              '${list.items.length} ${S.of(context).left_items}',
-              overflow: TextOverflow.ellipsis,
-            ),
+            child: Padding(
+                padding: const EdgeInsets.only(left: 40),
+                child: CategorySelector()),
           ),
           (sortType.state == SortType.alpha)
               ? Tooltip(

@@ -14,23 +14,22 @@ import 'intl/messages_all.dart';
 
 class S {
   S();
-
+  
   static S current;
-
-  static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
+  
+  static const AppLocalizationDelegate delegate =
+    AppLocalizationDelegate();
 
   static Future<S> load(Locale locale) {
-    final name = (locale.countryCode?.isEmpty ?? false)
-        ? locale.languageCode
-        : locale.toString();
-    final localeName = Intl.canonicalizedLocale(name);
+    final name = (locale.countryCode?.isEmpty ?? false) ? locale.languageCode : locale.toString();
+    final localeName = Intl.canonicalizedLocale(name); 
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       S.current = S();
-
+      
       return S.current;
     });
-  }
+  } 
 
   static S of(BuildContext context) {
     return Localizations.of<S>(context, S);
@@ -321,6 +320,26 @@ class S {
     return Intl.message(
       'The item will be permanently removed',
       name: 'remove_item_confirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `category`
+  String get category {
+    return Intl.message(
+      'category',
+      name: 'category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `add`
+  String get add {
+    return Intl.message(
+      'add',
+      name: 'add',
       desc: '',
       args: [],
     );
