@@ -295,6 +295,16 @@ class S {
     );
   }
 
+  /// `Quantity`
+  String get quantity {
+    return Intl.message(
+      'Quantity',
+      name: 'quantity',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `item`
   String get item_name {
     return Intl.message(

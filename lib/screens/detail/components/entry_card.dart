@@ -1,5 +1,6 @@
 import 'package:ar_list/business/ShopList/event.dart';
 import 'package:ar_list/components/confirmation.dart';
+import 'package:ar_list/components/quantity.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:ar_list/providers.dart';
@@ -30,10 +31,21 @@ class EntryCard extends HookWidget {
     return Material(
         elevation: 5,
         child: ListTile(
-          // trailing: IconButton(
-          //     icon: Icon(Icons.delete),
-          //     onPressed: () => delete(item, list, provider, context),
-          //     color: Theme.of(context).disabledColor),
+          trailing: TextButton(
+            child: Text("x ${item.quantity}",
+                style: TextStyle(color: Theme.of(context).disabledColor)),
+            onPressed: () {
+              Quantity.show(context, '', (n) {
+                print(n);
+                item.quantity = int.parse(n);
+                filter.state += '';
+                context.read(shopListNotifierProvider).event(WriteEvent());
+                Navigator.of(context).pop();
+              }, () {
+                Navigator.of(context).pop();
+              });
+            },
+          ),
           leading: item.got
               ? IconButton(
                   icon: Icon(Icons.check_box),

@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "lists" : MessageLookupByLibrary.simpleMessage("Lists"),
     "loading" : MessageLookupByLibrary.simpleMessage("loading..."),
     "no_lists" : MessageLookupByLibrary.simpleMessage("No lists found. Use the plus button to create some"),
+    "quantity" : MessageLookupByLibrary.simpleMessage("Quantity"),
     "remove" : MessageLookupByLibrary.simpleMessage("Remove"),
     "remove_item_confirmation" : MessageLookupByLibrary.simpleMessage("The item will be permanently removed"),
     "remove_list_confirmation" : MessageLookupByLibrary.simpleMessage("The list will be permanently removed"),
