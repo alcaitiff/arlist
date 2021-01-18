@@ -30,20 +30,21 @@ class Toolbar extends HookWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
-          Tooltip(
-            message: S.of(context).asc,
-            child: IconButton(
-                icon: Icon(Icons.arrow_downward_rounded),
-                onPressed: () => sortType.state = SortType.alpha,
-                color: textColorFor(SortType.alpha)),
-          ),
-          Tooltip(
-            message: S.of(context).desc,
-            child: IconButton(
-                icon: Icon(Icons.arrow_upward_rounded),
-                onPressed: () => sortType.state = SortType.inversedAlpha,
-                color: textColorFor(SortType.inversedAlpha)),
-          ),
+          (sortType.state == SortType.alpha)
+              ? Tooltip(
+                  message: S.of(context).asc,
+                  child: IconButton(
+                      icon: Icon(Icons.arrow_downward_rounded),
+                      onPressed: () => sortType.state = SortType.inversedAlpha,
+                      color: Theme.of(context).primaryColor),
+                )
+              : Tooltip(
+                  message: S.of(context).desc,
+                  child: IconButton(
+                      icon: Icon(Icons.arrow_upward_rounded),
+                      onPressed: () => sortType.state = SortType.alpha,
+                      color: Theme.of(context).primaryColor),
+                ),
         ],
       ),
     );
