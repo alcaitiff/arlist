@@ -1,7 +1,9 @@
 import 'package:ar_list/models/shop_list.dart';
+import 'package:ar_list/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/screens/detail/components/body.dart';
 import 'package:ar_list/generated/l10n.dart';
+import 'package:hooks_riverpod/all.dart';
 
 class DetailScreen extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen> {
   ShopList _list;
+  bool pushed = false;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
   @override
@@ -24,7 +27,14 @@ class _DetailScreenState extends State<DetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _list = ModalRoute.of(context).settings.arguments;
+    _list = context.read(currentList).state;
+    if (_list.items.isEmpty && !pushed) {
+      pushed = true;
+      Future.microtask(() =>
+          Navigator.pushNamed(context, '/add').whenComplete(() => setState(() {
+                context.read(entryFilter).state = '';
+              })));
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(_list.name),
@@ -32,8 +42,9 @@ class _DetailScreenState extends State<DetailScreen> {
       body: Body(_formKey, _list),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/add', arguments: _list)
-              .whenComplete(() => setState(() {}));
+          Navigator.pushNamed(context, '/add').whenComplete(() => setState(() {
+                context.read(entryFilter).state = '';
+              }));
         },
         child: Icon(Icons.add),
       ),
