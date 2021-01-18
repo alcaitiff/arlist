@@ -1,11 +1,15 @@
 import 'package:ar_list/business/ShopList/event.dart';
 import 'package:ar_list/models/shop_list.dart';
+import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:ar_list/providers.dart';
 import 'package:ar_list/repositories/shop_list_repository.dart';
 import 'package:ar_list/routes.dart';
+import 'package:ar_list/screens/detail/components/tool_bar.dart';
+import 'package:ar_list/screens/detail/components/entry_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
+import 'package:ar_list/generated/l10n.dart';
 
 class Body extends HookWidget {
   final GlobalKey<FormState> formKey;
@@ -13,37 +17,95 @@ class Body extends HookWidget {
 
   Body(this.formKey, this.list);
 
-  void submit(context) {
-    if (formKey.currentState.validate()) {
-      context.read(shopListNotifierProvider).event(WriteEvent());
-      Navigator.pop(context);
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: routes['/']));
-    }
+  void remove(
+      BuildContext context, ShopListEntry entry, StateController filter) {
+    list.removeItem(entry);
+    context.read(shopListNotifierProvider).event(WriteEvent());
+    filter.state += '';
   }
 
   @override
   Widget build(BuildContext context) {
+    final entries = useProvider(filteredEntries);
+    final listProvider = StateProvider<ShopList>((ref) => list);
+    final inList = entries.where((element) => element.got);
+    final outList = entries.where((element) => !element.got);
+    final textController = useTextEditingController();
+    final filter = useProvider(entryFilter);
     return SafeArea(
         top: false,
         bottom: false,
         child: new Form(
             key: formKey,
-            child: ListView.builder(
+            child: new ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                itemCount: list.items.length,
-                itemBuilder: /*1*/ (context, i) {
-                  return Card(
-                      child: ListTile(
-                    //trailing: showPopup(i),
-                    title: Text(
-                      list.items.elementAt(i).item.name,
-                      //style: _biggerFont,
+                children: <Widget>[
+                  new TextFormField(
+                    autofocus: false,
+                    controller: textController,
+                    decoration: InputDecoration(
+                      hintText: S.of(context).filter_hint,
+                      labelText: S.of(context).filter,
                     ),
-                    onTap: () {
-                      //Navigator.pushNamed(context, '/detail', arguments: lists.elementAt(i));
+                    onChanged: (String newValue) {
+                      filter.state = newValue.trim();
                     },
-                  ));
-                })));
+                    onEditingComplete: () {
+                      FocusScope.of(context).unfocus();
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  const Toolbar(),
+                  for (var i = 0; i < outList.length; i++) ...[
+                    if (i > 0) const Divider(height: 0),
+                    Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          remove(context, outList.elementAt(i), filter);
+                        }
+                      },
+                      background: new Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(left: 20.0),
+                        color: Theme.of(context).disabledColor,
+                        child: Icon(Icons.visibility_off,
+                            color: Theme.of(context).hintColor),
+                      ),
+                      secondaryBackground: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 20.0),
+                        color: Theme.of(context).errorColor,
+                        child: Icon(Icons.delete, color: Colors.white),
+                      ),
+                      child: EntryCard(outList.elementAt(i), listProvider),
+                    ),
+                  ],
+                  for (var i = 0; i < inList.length; i++) ...[
+                    if (i > 0) const Divider(height: 0),
+                    Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (direction) {
+                        if (direction == DismissDirection.endToStart) {
+                          remove(context, inList.elementAt(i), filter);
+                        }
+                      },
+                      background: new Container(
+                        alignment: Alignment.centerLeft,
+                        padding: EdgeInsets.only(left: 20.0),
+                        color: Theme.of(context).disabledColor,
+                        child: Icon(Icons.visibility_off,
+                            color: Theme.of(context).hintColor),
+                      ),
+                      secondaryBackground: Container(
+                        alignment: Alignment.centerRight,
+                        padding: EdgeInsets.only(right: 20.0),
+                        color: Theme.of(context).errorColor,
+                        child: Icon(Icons.delete, color: Colors.white),
+                      ),
+                      child: EntryCard(inList.elementAt(i), listProvider),
+                    ),
+                  ],
+                ])));
   }
 }
