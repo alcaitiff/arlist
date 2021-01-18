@@ -275,6 +275,26 @@ class S {
     );
   }
 
+  /// `Filter the list`
+  String get filter_hint {
+    return Intl.message(
+      'Filter the list',
+      name: 'filter_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter`
+  String get filter {
+    return Intl.message(
+      'Filter',
+      name: 'filter',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `item`
   String get item_name {
     return Intl.message(

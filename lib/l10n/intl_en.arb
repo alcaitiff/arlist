@@ -23,6 +23,8 @@
   "asc": "A...Z",
   "desc": "Z...A",
   "item_name_hint": "Filter the list or add a new",
+  "filter_hint": "Filter the list",
+  "filter": "Filter",
   "item_name": "item",
   "remove_item_confirmation": "The item will be permanently removed"
 }

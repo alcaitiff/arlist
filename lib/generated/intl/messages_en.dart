@@ -32,6 +32,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "desc" : MessageLookupByLibrary.simpleMessage("Z...A"),
     "error" : MessageLookupByLibrary.simpleMessage("Something went wrong"),
     "error_empty_value" : MessageLookupByLibrary.simpleMessage("Mandatory field"),
+    "filter" : MessageLookupByLibrary.simpleMessage("Filter"),
+    "filter_hint" : MessageLookupByLibrary.simpleMessage("Filter the list"),
     "item_name" : MessageLookupByLibrary.simpleMessage("item"),
     "item_name_hint" : MessageLookupByLibrary.simpleMessage("Filter the list or add a new"),
     "left_items" : MessageLookupByLibrary.simpleMessage("items"),
