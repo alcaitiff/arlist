@@ -41,8 +41,8 @@ class _ListsWidgetState extends State<Lists> {
                 style: _biggerFont,
               ),
               onTap: () {
-                Navigator.pushNamed(context, '/detail',
-                    arguments: lists.elementAt(i));
+                context.read(currentList).state = lists.elementAt(i);
+                Navigator.pushNamed(context, '/detail');
               },
             ));
           });
