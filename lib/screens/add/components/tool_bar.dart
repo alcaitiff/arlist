@@ -13,20 +13,15 @@ class Toolbar extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final sortType = useProvider(shopItemSortType);
-
-    Color textColorFor(SortType value) {
-      return sortType.state == value
-          ? Theme.of(context).primaryColor
-          : Theme.of(context).disabledColor;
-    }
-
+    final list = useProvider(currentList).state;
+    final filter = useProvider(shopItemFilter);
     return Material(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Text(
-              '${useProvider(filteredShopItems).length} ${S.of(context).left_items}',
+              '${list.items.length} ${S.of(context).left_items}',
               overflow: TextOverflow.ellipsis,
             ),
           ),
