@@ -60,6 +60,7 @@ class ShopItemCard extends HookWidget {
                 : list.addShopItem(item);
             context.read(shopListNotifierProvider).event(WriteEvent());
             provider.state = list;
+            context.read(shopItemFilter).state += '';
           },
         ));
   }
