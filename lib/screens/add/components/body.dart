@@ -22,7 +22,7 @@ class Body extends HookWidget {
     final lp = useProvider(listProvider);
     final inList = items.where((element) => lp.state.contains(element));
     final outList = items.where((element) => !lp.state.contains(element));
-    final newTodoController = useTextEditingController();
+    final textController = useTextEditingController();
     final filter = useProvider(shopItemFilter);
     return Consumer(builder: (context, watch, child) {
       return new Form(
@@ -31,7 +31,7 @@ class Body extends HookWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               children: <Widget>[
                 new TextFormField(
-                  controller: newTodoController,
+                  controller: textController,
                   decoration: InputDecoration(
                     hintText: S.of(context).item_name_hint,
                     labelText: S.of(context).item_name,
@@ -50,7 +50,7 @@ class Body extends HookWidget {
                           .read(shopListNotifierProvider)
                           .event(ListEvent.WriteEvent());
                       filter.state = '';
-                      newTodoController.clear();
+                      textController.clear();
                       FocusScope.of(context).unfocus();
                     }
                   },
@@ -68,6 +68,20 @@ class Body extends HookWidget {
                   Dismissible(
                     key: UniqueKey(),
                     onDismissed: (_) {},
+                    background: new Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 20.0),
+                      color: Theme.of(context).disabledColor,
+                      child: Icon(Icons.visibility_off,
+                          color: Theme.of(context).hintColor),
+                    ),
+                    secondaryBackground: Container(
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.only(right: 20.0),
+                      color: Theme.of(context).disabledColor,
+                      child: Icon(Icons.visibility_off,
+                          color: Theme.of(context).hintColor),
+                    ),
                     child: ShopItemCard(inList.elementAt(i), listProvider),
                   ),
                 ],
@@ -75,12 +89,21 @@ class Body extends HookWidget {
                   if (i > 0) const Divider(height: 0),
                   Dismissible(
                     key: UniqueKey(),
-                    onDismissed: (_) {
-                      // context
-                      //     .read(shopItemNotifierProvider)
-                      //     .event(RemoveEvent(outList.elementAt(i)));
-                      // context.read(shopItemFilter).state += '';
-                    },
+                    onDismissed: (_) {},
+                    background: new Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(left: 20.0),
+                      color: Theme.of(context).disabledColor,
+                      child: Icon(Icons.visibility_off,
+                          color: Theme.of(context).hintColor),
+                    ),
+                    secondaryBackground: Container(
+                      alignment: Alignment.centerRight,
+                      padding: EdgeInsets.only(right: 20.0),
+                      color: Theme.of(context).disabledColor,
+                      child: Icon(Icons.visibility_off,
+                          color: Theme.of(context).hintColor),
+                    ),
                     child: ShopItemCard(outList.elementAt(i), listProvider),
                   ),
                 ],
