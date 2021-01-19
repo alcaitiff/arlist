@@ -1,3 +1,4 @@
+import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +26,18 @@ class _DetailScreenState extends State<DetailScreen> {
     super.dispose();
   }
 
+  addAndClearFilters(BuildContext context) {
+    Navigator.pushNamed(context, '/add').whenComplete(() => setState(() {
+          context.read(filtersNotifierProvider).clear();
+        }));
+  }
+
   @override
   Widget build(BuildContext context) {
     _list = context.read(currentList).state;
     if (_list.items.isEmpty && !pushed) {
       pushed = true;
-      Future.microtask(() =>
-          Navigator.pushNamed(context, '/add').whenComplete(() => setState(() {
-                context.read(entryFilter).state = '';
-              })));
+      Future.microtask(() => addAndClearFilters(context));
     }
     return Scaffold(
       appBar: AppBar(
@@ -41,11 +45,7 @@ class _DetailScreenState extends State<DetailScreen> {
       ),
       body: Body(_formKey, _list),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, '/add').whenComplete(() => setState(() {
-                context.read(entryFilter).state = '';
-              }));
-        },
+        onPressed: () => addAndClearFilters(context),
         child: Icon(Icons.add),
       ),
     );

@@ -11,6 +11,38 @@ class Toolbar extends HookWidget {
     Key key,
   }) : super(key: key);
 
+  sorter(BuildContext context, StateController sortType) {
+    switch (sortType.state) {
+      case SortType.alpha:
+        return Tooltip(
+          message: S.of(context).asc,
+          child: IconButton(
+              icon: Icon(Icons.arrow_downward_rounded),
+              onPressed: () => sortType.state = SortType.inversedAlpha,
+              color: Theme.of(context).primaryColor),
+        );
+        break;
+      case SortType.inversedAlpha:
+        return Tooltip(
+          message: S.of(context).desc,
+          child: IconButton(
+              icon: Icon(Icons.arrow_upward_rounded),
+              onPressed: () => sortType.state = SortType.category,
+              color: Theme.of(context).primaryColor),
+        );
+        break;
+      case SortType.category:
+        return Tooltip(
+          message: S.of(context).desc,
+          child: IconButton(
+              icon: Icon(Icons.category),
+              onPressed: () => sortType.state = SortType.alpha,
+              color: Theme.of(context).primaryColor),
+        );
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final sortType = useProvider(shopItemSortType);
@@ -24,26 +56,10 @@ class Toolbar extends HookWidget {
             '${list.items.length} ${S.of(context).left_items}',
             overflow: TextOverflow.ellipsis,
           ),
-          Expanded(
-            child: Padding(
-                padding: const EdgeInsets.only(left: 40),
-                child: CategorySelector()),
-          ),
-          (sortType.state == SortType.alpha)
-              ? Tooltip(
-                  message: S.of(context).asc,
-                  child: IconButton(
-                      icon: Icon(Icons.arrow_downward_rounded),
-                      onPressed: () => sortType.state = SortType.inversedAlpha,
-                      color: Theme.of(context).primaryColor),
-                )
-              : Tooltip(
-                  message: S.of(context).desc,
-                  child: IconButton(
-                      icon: Icon(Icons.arrow_upward_rounded),
-                      onPressed: () => sortType.state = SortType.alpha,
-                      color: Theme.of(context).primaryColor),
-                ),
+          Padding(
+              padding: const EdgeInsets.only(left: 0),
+              child: CategorySelector()),
+          sorter(context, sortType)
         ],
       ),
     );

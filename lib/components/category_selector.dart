@@ -16,63 +16,72 @@ class CategorySelector extends HookWidget {
     Category category = useProvider(currentCategory).state;
     StateController filter = useProvider(categoryFilter);
     _typeAheadController.text = filter.state;
+
     return Form(
       key: _formKey,
-      child: ListTile(
-        trailing: (filter.state.trim() != '' &&
-                (category == null || filter.state.trim() != category.name))
-            ? IconButton(
-                icon: Icon(Icons.add),
-                padding: EdgeInsets.only(right: 16.0),
-                onPressed: () {
-                  Category c = Category(_typeAheadController.text);
-                  context.read(categoryNotifierProvider).event(AddEvent(c));
-                  context.read(currentCategory).state = c;
-                  filter.state += '';
-                })
-            : (filter.state.trim() != '')
+      child: Container(
+          width: 260,
+          child: ListTile(
+            trailing: (filter.state.trim() != '' &&
+                    (category == null || filter.state.trim() != category.name))
                 ? IconButton(
-                    icon: Icon(Icons.delete_forever),
+                    icon: Icon(Icons.add),
                     padding: EdgeInsets.only(right: 16.0),
                     onPressed: () {
-                      context.read(categoryNotifierProvider).event(
-                          RemoveEvent(context.read(currentCategory).state));
-                      filter.state = '';
+                      Category c = Category(_typeAheadController.text);
+                      context.read(categoryNotifierProvider).event(AddEvent(c));
+                      context.read(currentCategory).state = c;
+                      filter.state += '';
                     })
-                : null,
-        title: TypeAheadFormField(
-          textFieldConfiguration: TextFieldConfiguration(
-              controller: _typeAheadController,
-              onEditingComplete: () {
-                Category c = Category(_typeAheadController.text);
-                context.read(categoryNotifierProvider).event(AddEvent(c));
-                context.read(currentCategory).state = c;
-                filter.state = _typeAheadController.text;
+                : (filter.state.trim() != '')
+                    ? IconButton(
+                        icon: Icon(Icons.delete_forever),
+                        padding: EdgeInsets.only(right: 16.0),
+                        onPressed: () {
+                          context.read(categoryNotifierProvider).event(
+                              RemoveEvent(context.read(currentCategory).state));
+                          filter.state = '';
+                        })
+                    : null,
+            title: TypeAheadFormField(
+              textFieldConfiguration: TextFieldConfiguration(
+                  controller: _typeAheadController,
+                  autofocus: false,
+                  onEditingComplete: () {
+                    Category c = Category(_typeAheadController.text);
+                    context.read(categoryNotifierProvider).event(AddEvent(c));
+                    context.read(currentCategory).state = c;
+                    filter.state = _typeAheadController.text;
+                  },
+                  style: DefaultTextStyle.of(context)
+                      .style
+                      .copyWith(fontStyle: FontStyle.italic),
+                  decoration: InputDecoration(
+                      border: UnderlineInputBorder(),
+                      labelText: S.of(context).category)),
+              noItemsFoundBuilder: (BuildContext context) => null,
+              suggestionsCallback: (pattern) {
+                return list.where((element) => element.name
+                    .toLowerCase()
+                    .startsWith(pattern.toLowerCase()));
               },
-              style: DefaultTextStyle.of(context)
-                  .style
-                  .copyWith(fontStyle: FontStyle.italic),
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  labelText: S.of(context).category)),
-          noItemsFoundBuilder: (BuildContext context) => null,
-          suggestionsCallback: (pattern) {
-            return list.where((element) =>
-                element.name.toLowerCase().startsWith(pattern.toLowerCase()));
-          },
-          onSaved: (value) => print(value),
-          itemBuilder: (context, Category suggestion) {
-            return Text(suggestion.name);
-          },
-          onSuggestionSelected: (Category suggestion) {
-            if (suggestion != null) {
-              context.read(currentCategory).state = suggestion;
-              _typeAheadController.text = suggestion.name;
-              filter.state = _typeAheadController.text;
-            }
-          },
-        ),
-      ),
+              onSaved: (value) => print(value),
+              itemBuilder: (context, Category suggestion) {
+                return ListTile(
+                    contentPadding: EdgeInsets.only(left: 10),
+                    title: Text(suggestion.name));
+              },
+              suggestionsBoxDecoration:
+                  SuggestionsBoxDecoration(hasScrollbar: true),
+              onSuggestionSelected: (Category suggestion) {
+                if (suggestion != null) {
+                  context.read(currentCategory).state = suggestion;
+                  _typeAheadController.text = suggestion.name;
+                  filter.state = _typeAheadController.text;
+                }
+              },
+            ),
+          )),
     );
   }
 }

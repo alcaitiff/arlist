@@ -42,7 +42,10 @@ class _ListsWidgetState extends State<Lists> {
               ),
               onTap: () {
                 context.read(currentList).state = lists.elementAt(i);
-                Navigator.pushNamed(context, '/detail');
+                Navigator.pushNamed(context, '/detail')
+                    .whenComplete(() => setState(() {
+                          context.read(filtersNotifierProvider).clear();
+                        }));
               },
             ));
           });

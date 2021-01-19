@@ -57,14 +57,29 @@ class EntryCard extends HookWidget {
                   onPressed: () =>
                       toggleItem(item, context, provider, list, filter),
                   color: Theme.of(context).primaryColor),
-          title: Text(
-            item.item.name,
-            style: TextStyle(
-                color: item.got
-                    ? Theme.of(context).disabledColor
-                    : Theme.of(context).primaryColor),
-            //style: _biggerFont,
-          ),
+          title: Row(children: [
+            Text(
+              item.item.name,
+              style: TextStyle(
+                  color: item.got
+                      ? Theme.of(context).disabledColor
+                      : Theme.of(context).primaryColor),
+              //style: _biggerFont,
+            ),
+            if (item.item.category != null)
+              Expanded(
+                  child: Padding(
+                      padding: const EdgeInsets.only(right: 0),
+                      child: Text(
+                        item.item.category.name,
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            color: Theme.of(context).disabledColor,
+                            fontSize: 11,
+                            fontStyle: FontStyle.italic),
+                        //style: _biggerFont,
+                      )))
+          ]),
           onTap: () => toggleItem(item, context, provider, list, filter),
         ));
   }
