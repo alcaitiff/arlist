@@ -16,6 +16,18 @@ class CategorySelector extends HookWidget {
     Category category = useProvider(currentCategory).state;
     StateController filter = useProvider(categoryFilter);
     _typeAheadController.text = filter.state;
+    final _focusNode = FocusNode();
+
+    _focusNode.addListener(() {
+      Category c = context.read(currentCategory).state;
+      if (!_focusNode.hasFocus &&
+          c != null &&
+          _typeAheadController.text.trim() != c.name.trim()) {
+        context.read(currentCategory).state = Category('');
+        _typeAheadController.text = '';
+        filter.state = '';
+      }
+    });
 
     return Form(
       key: _formKey,
@@ -50,6 +62,7 @@ class CategorySelector extends HookWidget {
               textFieldConfiguration: TextFieldConfiguration(
                   controller: _typeAheadController,
                   autofocus: false,
+                  focusNode: _focusNode,
                   onEditingComplete: () {
                     Category c = Category(_typeAheadController.text.trim());
                     context.read(categoryNotifierProvider).event(AddEvent(c));
