@@ -1,5 +1,3 @@
-import 'package:ar_list/business/ShopList/notifier.dart';
-import 'package:ar_list/repositories/shop_list_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/theme/style.dart';
 import 'package:ar_list/routes.dart';

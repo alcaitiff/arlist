@@ -23,15 +23,18 @@ class CategorySelector extends HookWidget {
           width: 260,
           child: ListTile(
             trailing: (filter.state.trim() != '' &&
-                    (category == null || filter.state.trim() != category.name))
+                    (category == null ||
+                        filter.state.trim() != category.name.trim()))
                 ? IconButton(
                     icon: Icon(Icons.add),
                     padding: EdgeInsets.only(right: 16.0),
                     onPressed: () {
-                      Category c = Category(_typeAheadController.text);
+                      Category c = Category(_typeAheadController.text.trim());
                       context.read(categoryNotifierProvider).event(AddEvent(c));
                       context.read(currentCategory).state = c;
-                      filter.state += '';
+                      _typeAheadController.text =
+                          _typeAheadController.text.trim();
+                      filter.state = filter.state.trim() + '';
                     })
                 : (filter.state.trim() != '')
                     ? IconButton(
@@ -48,9 +51,11 @@ class CategorySelector extends HookWidget {
                   controller: _typeAheadController,
                   autofocus: false,
                   onEditingComplete: () {
-                    Category c = Category(_typeAheadController.text);
+                    Category c = Category(_typeAheadController.text.trim());
                     context.read(categoryNotifierProvider).event(AddEvent(c));
                     context.read(currentCategory).state = c;
+                    _typeAheadController.text =
+                        _typeAheadController.text.trim();
                     filter.state = _typeAheadController.text;
                   },
                   style: DefaultTextStyle.of(context)
