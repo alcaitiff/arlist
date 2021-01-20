@@ -1,6 +1,6 @@
 import 'package:ar_list/components/category_dropdown.dart';
+import 'package:ar_list/models/category.dart';
 import 'package:ar_list/providers.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -43,12 +43,17 @@ class Toolbar extends HookWidget {
     }
   }
 
+  categoryChange(BuildContext context, Category category) {
+    context.read(currentCategory).state = category;
+  }
+
   @override
   Widget build(BuildContext context) {
     final sortType = useProvider(entrySortType);
     final filter = useProvider(entryFilter);
     final list = useProvider(currentList).state;
     final inList = list.items.where((element) => element.got);
+    final category = useProvider(currentCategory).state;
     return Material(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -60,7 +65,9 @@ class Toolbar extends HookWidget {
           Expanded(
             child: Padding(
                 padding: const EdgeInsets.only(left: 40),
-                child: CategoryDropdown()),
+                child: CategoryDropdown(null, (value) {
+                  categoryChange(context, value);
+                })),
           ),
           sorter(context, sortType)
         ],

@@ -6,17 +6,25 @@ import 'package:hooks_riverpod/all.dart';
 import 'package:ar_list/generated/l10n.dart';
 
 class CategoryDropdown extends StatefulWidget {
+  final Function callbackAction;
+  final Category initialValue;
+
+  CategoryDropdown(this.initialValue, this.callbackAction);
+
   @override
-  _CategoryDropdownState createState() => _CategoryDropdownState();
+  _CategoryDropdownState createState() =>
+      _CategoryDropdownState(this.initialValue);
 }
 
 class _CategoryDropdownState extends State<CategoryDropdown> {
   Category currentValue;
+
+  _CategoryDropdownState(this.currentValue);
+
   Widget build(BuildContext context) {
     List<Category> list =
         context.read(categoryRepositoryProvider).data.toList();
     list.sort();
-    StateController<Category> category = context.read(currentCategory);
     return DropdownButton<Category>(
       value: currentValue,
       hint: Text(S.of(context).category),
@@ -27,7 +35,7 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
       onChanged: (Category newValue) {
         setState(() {
           currentValue = newValue;
-          category.state = newValue;
+          widget.callbackAction(newValue);
         });
       },
       items: list.map((e) {

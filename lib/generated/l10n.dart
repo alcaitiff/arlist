@@ -335,6 +335,16 @@ class S {
     );
   }
 
+  /// `Change to`
+  String get select_category {
+    return Intl.message(
+      'Change to',
+      name: 'select_category',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `add`
   String get add {
     return Intl.message(

@@ -29,5 +29,6 @@
   "item_name": "item",
   "remove_item_confirmation": "The item will be permanently removed",
   "category": "category",
+  "select_category": "Change to",
   "add": "add"
 }

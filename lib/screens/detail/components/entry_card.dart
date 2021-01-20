@@ -1,4 +1,5 @@
 import 'package:ar_list/business/ShopList/event.dart';
+import 'package:ar_list/components/category_modal.dart';
 import 'package:ar_list/components/confirmation.dart';
 import 'package:ar_list/components/quantity.dart';
 import 'package:ar_list/models/shop_list.dart';
@@ -66,19 +67,27 @@ class EntryCard extends HookWidget {
                       : Theme.of(context).primaryColor),
               //style: _biggerFont,
             ),
-            if (item.item.category != null)
-              Expanded(
-                  child: Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: Text(
-                        item.item.category.name,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                            color: Theme.of(context).disabledColor,
-                            fontSize: 11,
-                            fontStyle: FontStyle.italic),
-                        //style: _biggerFont,
-                      )))
+            Expanded(child: Text("")),
+            TextButton(
+                child: Text(
+                    (item.item.category.name == '')
+                        ? ' - '
+                        : item.item.category.name,
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        color: Theme.of(context).disabledColor,
+                        fontSize: 11,
+                        fontStyle: FontStyle.italic)),
+                onPressed: () {
+                  CategoryModal.show(context, item.item.category, (value) {
+                    item.item.category = value;
+                    filter.state += '';
+                    context.read(shopListNotifierProvider).event(WriteEvent());
+                    Navigator.of(context).pop();
+                  }, () {
+                    Navigator.of(context).pop();
+                  });
+                })
           ]),
           onTap: () => toggleItem(item, context, provider, list, filter),
         ));

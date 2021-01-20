@@ -51,6 +51,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "remove_list_confirmation" : MessageLookupByLibrary.simpleMessage("A lista será removida"),
     "rename" : MessageLookupByLibrary.simpleMessage("Renomear"),
     "rename_list" : MessageLookupByLibrary.simpleMessage("Renomeie a lista"),
-    "save" : MessageLookupByLibrary.simpleMessage("Salvar")
+    "save" : MessageLookupByLibrary.simpleMessage("Salvar"),
+    "select_category" : MessageLookupByLibrary.simpleMessage("Alterar para")
   };
 }
