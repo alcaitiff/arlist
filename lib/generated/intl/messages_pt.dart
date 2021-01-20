@@ -41,7 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "left_items" : MessageLookupByLibrary.simpleMessage("itens"),
     "list_item" : MessageLookupByLibrary.simpleMessage("Item"),
     "list_name" : MessageLookupByLibrary.simpleMessage("Nome"),
-    "list_name_hint" : MessageLookupByLibrary.simpleMessage("Your list name"),
+    "list_name_hint" : MessageLookupByLibrary.simpleMessage("Nome da lista"),
     "lists" : MessageLookupByLibrary.simpleMessage("Listas"),
     "loading" : MessageLookupByLibrary.simpleMessage("carregandog..."),
     "no_lists" : MessageLookupByLibrary.simpleMessage("Nenhuma lista cadastrada. Use o botão para adicionar."),

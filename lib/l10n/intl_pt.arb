@@ -4,7 +4,7 @@
   "loading": "carregandog...",
   "create_list": "Crie uma lista",
   "rename_list": "Renomeie a lista",
-  "list_name_hint": "Your list name",
+  "list_name_hint": "Nome da lista",
   "list_name": "Nome",
   "list_item": "Item",
   "save": "Salvar",
