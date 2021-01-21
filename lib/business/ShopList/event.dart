@@ -13,6 +13,11 @@ class AddEvent extends ShopListEvent {
   AddEvent(this.list);
 }
 
+class ImportEvent extends ShopListEvent {
+  final String url;
+  ImportEvent(this.url);
+}
+
 class RemoveEvent extends ShopListEvent {
   final int i;
   RemoveEvent(this.i);

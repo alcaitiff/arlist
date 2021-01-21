@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:ar_list/business/ShopList/event.dart';
+import 'package:ar_list/services/compressor.dart';
 import 'package:hooks_riverpod/all.dart';
 
 import 'state.dart';
@@ -11,6 +14,13 @@ class ShopListNotifier extends StateNotifier<ShopListState> {
   @override
   ShopListNotifier(this._repository) : super(ShopListUnloadedState());
 
+  ShopList listFromUrl(String url) {
+    String text = url;
+    String gzip = text.substring(text.indexOf('=') + 1);
+    String stringData = Compressor().decompress(gzip);
+    return ShopList.fromJson(json.decode(stringData));
+  }
+
   Future<void> event(ShopListEvent event) async {
     state = ShopListFetchingState();
     Set<ShopList> list;
@@ -21,6 +31,8 @@ class ShopListNotifier extends StateNotifier<ShopListState> {
         list = await _repository.write();
       } else if (event is AddEvent) {
         list = await _repository.add(event.list);
+      } else if (event is ImportEvent) {
+        list = await _repository.add(listFromUrl(event.url));
       } else if (event is RemoveEvent) {
         list = await _repository.removeAt(event.i);
       }
