@@ -37,7 +37,6 @@ class EntryCard extends HookWidget {
                 style: TextStyle(color: Theme.of(context).disabledColor)),
             onPressed: () {
               Quantity.show(context, '', (n) {
-                print(n);
                 item.quantity = int.parse(n);
                 filter.state += '';
                 context.read(shopListNotifierProvider).event(WriteEvent());

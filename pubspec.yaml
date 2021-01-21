@@ -32,6 +32,8 @@ dependencies:
   flutter_hooks: ^0.14.0
   hooks_riverpod: ^0.12.1
   flutter_typeahead: ^2.0.0
+  archive: ^2.0.13
+  share: ^0.6.5+4
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -83,7 +83,6 @@ class CategorySelector extends HookWidget {
                     .toLowerCase()
                     .startsWith(pattern.toLowerCase()));
               },
-              onSaved: (value) => print(value),
               itemBuilder: (context, Category suggestion) {
                 return ListTile(
                     contentPadding: EdgeInsets.only(left: 10),
