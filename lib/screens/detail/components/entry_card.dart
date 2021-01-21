@@ -32,10 +32,10 @@ class EntryCard extends HookWidget {
     return Material(
         elevation: 5,
         child: ListTile(
-          trailing: TextButton(
+          trailing: GestureDetector(
             child: Text("x ${item.quantity}",
                 style: TextStyle(color: Theme.of(context).disabledColor)),
-            onPressed: () {
+            onTap: () {
               Quantity.show(context, '', (n) {
                 item.quantity = int.parse(n);
                 filter.state += '';
@@ -46,26 +46,21 @@ class EntryCard extends HookWidget {
               });
             },
           ),
-          leading: item.got
-              ? IconButton(
-                  icon: Icon(Icons.check_box),
-                  onPressed: () =>
-                      toggleItem(item, context, provider, list, filter),
-                  color: Theme.of(context).disabledColor)
-              : IconButton(
-                  icon: Icon(Icons.crop_square),
-                  onPressed: () =>
-                      toggleItem(item, context, provider, list, filter),
-                  color: Theme.of(context).primaryColor),
           title: Row(children: [
-            Text(
-              item.item.name,
-              style: TextStyle(
-                  color: item.got
-                      ? Theme.of(context).disabledColor
-                      : Theme.of(context).primaryColor),
-              //style: _biggerFont,
-            ),
+            item.got
+                ? Icon(Icons.check_box, color: Theme.of(context).disabledColor)
+                : Icon(Icons.crop_square,
+                    color: Theme.of(context).primaryColor),
+            Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Text(
+                  item.item.name,
+                  style: TextStyle(
+                      color: item.got
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).primaryColor),
+                  //style: _biggerFont,
+                )),
             Expanded(child: Text("")),
             TextButton(
                 child: Text(

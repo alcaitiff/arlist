@@ -54,6 +54,7 @@ class Toolbar extends HookWidget {
     final list = useProvider(currentList).state;
     final inList = list.items.where((element) => element.got);
     final category = useProvider(currentCategory).state;
+    final key = Key(list.hashCode.toString());
     return Material(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +66,8 @@ class Toolbar extends HookWidget {
           Expanded(
             child: Padding(
                 padding: const EdgeInsets.only(left: 40),
-                child: CategoryDropdown(null, (value) {
+                child: CategoryDropdown(
+                    key, context.read(currentCategory).state, (value) {
                   categoryChange(context, value);
                 })),
           ),

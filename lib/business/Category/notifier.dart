@@ -20,7 +20,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
       } else if (event is WriteEvent) {
         item = await _repository.write();
       } else if (event is AddEvent) {
-        item = await _repository.add(event.item);
+        item = await _repository.add(event.category);
       } else if (event is RemoveAtEvent) {
         item = await _repository.removeAt(event.i);
       } else if (event is RemoveEvent) {

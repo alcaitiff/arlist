@@ -28,7 +28,11 @@
   "quantity": "Quantidade",
   "item_name": "item",
   "remove_item_confirmation": "O item será removido",
+  "category_name_hint": "Filtre ou adicione uma categoria",
+  "category_name": "categoria",
   "category": "categoria",
+  "left_categories": "categorias",
+  "categories": "Categorias",
   "select_category": "Alterar para",
   "add": "adicionar"
 }

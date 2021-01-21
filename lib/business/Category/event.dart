@@ -9,8 +9,8 @@ class ReadEvent extends CategoryEvent {}
 class ClearEvent extends CategoryEvent {}
 
 class AddEvent extends CategoryEvent {
-  final Category item;
-  AddEvent(this.item);
+  final Category category;
+  AddEvent(this.category);
 }
 
 class RemoveEvent extends CategoryEvent {

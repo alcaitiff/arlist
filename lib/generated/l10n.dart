@@ -335,11 +335,51 @@ class S {
     );
   }
 
+  /// `Categories`
+  String get categories {
+    return Intl.message(
+      'Categories',
+      name: 'categories',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter the list os add a new category`
+  String get category_name_hint {
+    return Intl.message(
+      'Filter the list os add a new category',
+      name: 'category_name_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `category name`
+  String get category_name {
+    return Intl.message(
+      'category name',
+      name: 'category_name',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change to`
   String get select_category {
     return Intl.message(
       'Change to',
       name: 'select_category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `categories`
+  String get left_categories {
+    return Intl.message(
+      'categories',
+      name: 'left_categories',
       desc: '',
       args: [],
     );

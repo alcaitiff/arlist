@@ -42,6 +42,7 @@ final currentList = StateProvider<ShopList>((ref) => ShopList(''));
 
 final currentCategory = StateProvider<Category>((ref) => Category(''));
 final categoryFilter = StateProvider((ref) => '');
+final categorySortType = StateProvider((ref) => SortType.alpha);
 
 final entryFilter = StateProvider((ref) => '');
 final entrySortType = StateProvider((ref) => SortType.alpha);
@@ -113,7 +114,6 @@ final filteredShopItems = Provider<List<ShopItem>>((ref) {
   final category = ref.watch(currentCategory);
   final items = ref.watch(shopItemRepositoryProvider).data;
   final sortType = ref.watch(shopItemSortType);
-
   if (items != null && items.length > 0) {
     final result = items
         .where((item) =>
@@ -136,6 +136,32 @@ final filteredShopItems = Provider<List<ShopItem>>((ref) {
     } else if (sortType.state == SortType.category) {
       result.sort((a, b) {
         return a.compareTo(b);
+      });
+    }
+    return result;
+  } else {
+    return [];
+  }
+});
+
+final filteredCategories = Provider<List<Category>>((ref) {
+  final filter = ref.watch(categoryFilter);
+  final items = ref.watch(categoryRepositoryProvider).data;
+  final sortType = ref.watch(categorySortType);
+
+  if (items != null && items.length > 0) {
+    final result = items
+        .where((item) =>
+            item.name.toLowerCase().contains(filter.state.toLowerCase()))
+        .where((item) => item.name != '')
+        .toList();
+    if (sortType.state == SortType.alpha) {
+      result.sort((a, b) {
+        return a.compareTo(b);
+      });
+    } else if (sortType.state == SortType.inversedAlpha) {
+      result.sort((a, b) {
+        return b.compareTo(a);
       });
     }
     return result;

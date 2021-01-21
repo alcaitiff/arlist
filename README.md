@@ -13,4 +13,3 @@ flutter test
 ```bash
 flutter build apk
 ```
-

@@ -11,7 +11,7 @@ class CategoryModal {
     Function continueCallback,
     Function cancelCallback,
   ) {
-    Category category = value;
+    Key key = Key(value.hashCode.toString());
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(S.of(context).cancel),
@@ -20,7 +20,7 @@ class CategoryModal {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text(S.of(context).select_category),
-      content: CategoryDropdown(value, (value) {
+      content: CategoryDropdown(key, value, (value) {
         continueCallback(value);
       }),
       actions: [cancelButton],

@@ -29,6 +29,10 @@
   "item_name": "item",
   "remove_item_confirmation": "The item will be permanently removed",
   "category": "category",
+  "categories": "Categories",
+  "category_name_hint": "Filter the list os add a new category",
+  "category_name": "category name",
   "select_category": "Change to",
+  "left_categories": "categories",
   "add": "add"
 }

@@ -49,30 +49,30 @@ class ShopItemCard extends HookWidget {
     return Material(
         elevation: 5,
         child: ListTile(
-          trailing: IconButton(
-              visualDensity: VisualDensity.compact,
-              icon: Icon(Icons.delete_forever),
-              onPressed: () => delete(item, list, provider, context),
-              color: Theme.of(context).hintColor),
-          leading: IconButton(
-            visualDensity: VisualDensity.compact,
-            icon: list.contains(item)
-                ? Icon(Icons.remove, color: Theme.of(context).hintColor)
-                : Icon(Icons.add, color: Theme.of(context).disabledColor),
-            onPressed: () => toogle(context, list, provider),
+          trailing: GestureDetector(
+            child:
+                Icon(Icons.delete_forever, color: Theme.of(context).hintColor),
+            onTap: () => delete(item, list, provider, context),
           ),
           title: Row(children: [
             GestureDetector(
+                child: list.contains(item)
+                    ? Icon(Icons.remove, color: Theme.of(context).hintColor)
+                    : Icon(Icons.add, color: Theme.of(context).disabledColor),
+                onTap: () => toogle(context, list, provider)),
+            GestureDetector(
               onTap: () => toogle(context, list, provider),
-              child: Text(
-                item.name.trim(),
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    color: list.contains(item)
-                        ? Theme.of(context).primaryColor
-                        : Theme.of(context).disabledColor),
-                //style: _biggerFont,
-              ),
+              child: Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    item.name.trim(),
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                        color: list.contains(item)
+                            ? Theme.of(context).primaryColor
+                            : Theme.of(context).disabledColor),
+                    //style: _biggerFont,
+                  )),
             ),
             Expanded(child: Text("")),
             TextButton(
