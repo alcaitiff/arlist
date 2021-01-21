@@ -21,9 +21,9 @@ void main() {
 
     expect(fromFile.length, 4);
 
-    fromFile.toList()
-      ..sort((a, b) => a.compareTo(b))
-      ..forEach((element) => print(element.toJson()));
+    // fromFile.toList()
+    //   ..sort((a, b) => a.compareTo(b))
+    //   ..forEach((element) => print(element.toJson()));
   }, skip: false);
 
   test('Categories are comparable', () {

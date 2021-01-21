@@ -4,7 +4,6 @@ import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:ar_list/services/compressor.dart';
 import 'package:test/test.dart';
-import 'package:ar_list/repositories/category_repository.dart';
 
 void main() {
   test('Must be capable of compress and decompress', () async {
@@ -39,5 +38,5 @@ void main() {
     String s2 = compressor.decompress(s1);
 
     expect(l1.toJson().toString() == s2, true);
-  }, skip: false);
+  });
 }
