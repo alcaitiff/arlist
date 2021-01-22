@@ -86,7 +86,7 @@ class _ListsWidgetState extends State<Lists> {
                       context.read(filtersNotifierProvider).clear();
                     });
                   } else {
-                    context.read(filtersNotifierProvider).clear();
+                    //context.read(filtersNotifierProvider).clear();
                   }
                 });
               },
