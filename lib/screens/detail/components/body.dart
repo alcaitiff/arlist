@@ -1,37 +1,38 @@
 import 'package:ar_list/business/ShopList/event.dart';
+import 'package:ar_list/generated/l10n.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:ar_list/providers.dart';
-import 'package:ar_list/repositories/shop_list_repository.dart';
-import 'package:ar_list/routes.dart';
-import 'package:ar_list/screens/detail/components/tool_bar.dart';
 import 'package:ar_list/screens/detail/components/entry_card.dart';
+import 'package:ar_list/screens/detail/components/tool_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
-import 'package:ar_list/generated/l10n.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Body extends HookWidget {
+class Body extends HookConsumerWidget {
   final GlobalKey<FormState> formKey;
   final ShopList list;
 
   Body(this.formKey, this.list);
 
   void remove(
-      BuildContext context, ShopListEntry entry, StateController filter) {
-    list.removeItem(entry);
-    context.read(shopListNotifierProvider).event(WriteEvent());
+      WidgetRef ref, ShopListEntry? entry, StateController<String> filter) {
+    list.removeItem(entry!);
+    ref.read(shopListNotifierProvider.notifier).event(WriteEvent());
+    //SETCONTEXT
     filter.state += '';
   }
 
   @override
-  Widget build(BuildContext context) {
-    final entries = useProvider(filteredEntries);
-    final listProvider = StateProvider<ShopList>((ref) => list);
-    final inList = entries.where((element) => element.got);
-    final outList = entries.where((element) => !element.got);
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<ShopListEntry?> entries = ref.watch(filteredEntries);
+    StateProvider<ShopList> listProvider =
+        StateProvider<ShopList>((ref) => list);
+    Iterable<ShopListEntry?> inList = entries.where((element) => element!.got);
+    Iterable<ShopListEntry?> outList =
+        entries.where((element) => !element!.got);
     final textController = useTextEditingController();
-    final filter = useProvider(entryFilter);
+    StateController<String> filter = ref.read(entryFilter.notifier);
     return SafeArea(
         top: false,
         bottom: false,
@@ -48,6 +49,7 @@ class Body extends HookWidget {
                       labelText: S.of(context).filter,
                     ),
                     onChanged: (String newValue) {
+                      //SETCONTEXT
                       filter.state = newValue.trim();
                     },
                     onEditingComplete: () {
@@ -62,7 +64,7 @@ class Body extends HookWidget {
                       key: UniqueKey(),
                       onDismissed: (direction) {
                         if (direction == DismissDirection.endToStart) {
-                          remove(context, outList.elementAt(i), filter);
+                          remove(ref, outList!.elementAt(i), filter);
                         }
                       },
                       background: new Container(
@@ -75,10 +77,10 @@ class Body extends HookWidget {
                       secondaryBackground: Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.only(right: 20.0),
-                        color: Theme.of(context).errorColor,
+                        color: Theme.of(context).colorScheme.error,
                         child: Icon(Icons.delete, color: Colors.white),
                       ),
-                      child: EntryCard(outList.elementAt(i), listProvider),
+                      child: EntryCard(outList.elementAt(i)!, listProvider),
                     ),
                   ],
                   for (var i = 0; i < inList.length; i++) ...[
@@ -87,7 +89,7 @@ class Body extends HookWidget {
                       key: UniqueKey(),
                       onDismissed: (direction) {
                         if (direction == DismissDirection.endToStart) {
-                          remove(context, inList.elementAt(i), filter);
+                          remove(ref, inList.elementAt(i), filter);
                         }
                       },
                       background: new Container(
@@ -100,10 +102,10 @@ class Body extends HookWidget {
                       secondaryBackground: Container(
                         alignment: Alignment.centerRight,
                         padding: EdgeInsets.only(right: 20.0),
-                        color: Theme.of(context).errorColor,
+                        color: Theme.of(context).colorScheme.error,
                         child: Icon(Icons.delete, color: Colors.white),
                       ),
-                      child: EntryCard(inList.elementAt(i), listProvider),
+                      child: EntryCard(inList.elementAt(i)!, listProvider),
                     ),
                   ],
                 ])));

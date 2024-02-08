@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 
 class Quantity {
   static show(BuildContext context, String value, Function continueCallback,
-      Function cancelCallback) {
+      void Function()? cancelCallback) {
     final TextEditingController _textFieldController =
         TextEditingController(text: value);
     // set up the buttons

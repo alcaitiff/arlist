@@ -1,7 +1,7 @@
 import 'package:ar_list/business/Category/event.dart';
 import 'package:ar_list/models/category.dart';
 import 'package:ar_list/repositories/category_repository.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'state.dart';
 
@@ -15,6 +15,7 @@ class CategoryNotifier extends StateNotifier<CategoryState> {
     state = CategoryFetchingState();
     Set<Category> item;
     try {
+      item = new Set();
       if (event is ReadEvent) {
         item = await _repository.read();
       } else if (event is WriteEvent) {

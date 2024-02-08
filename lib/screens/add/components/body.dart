@@ -8,22 +8,22 @@ import 'package:ar_list/screens/add/components/tool_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/generated/l10n.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Body extends HookWidget {
+class Body extends HookConsumerWidget {
   final GlobalKey<FormState> formKey;
   final StateProvider<ShopList> listProvider;
 
   Body(this.formKey, this.listProvider);
   @override
-  Widget build(BuildContext context) {
-    final items = useProvider(filteredShopItems);
-    final lp = useProvider(listProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final items = ref.watch(filteredShopItems);
+    StateController<ShopList> lp = ref.watch(listProvider.notifier);
     final inList = items.where((element) => lp.state.contains(element));
     final outList = items.where((element) => !lp.state.contains(element));
     final textController = useTextEditingController();
-    final filter = useProvider(shopItemFilter);
-    final cf = useProvider(categoryFilter);
+    StateController<String> filter = ref.watch(shopItemFilter.notifier);
+    final cf = ref.watch(categoryFilter);
     return Consumer(builder: (context, watch, child) {
       return new Form(
           key: formKey,
@@ -40,15 +40,15 @@ class Body extends HookWidget {
                     filter.state = newValue.trim();
                   },
                   onEditingComplete: () {
-                    if (formKey.currentState.validate()) {
-                      ShopItem item = ShopItem(
-                          filter.state, context.read(currentCategory).state);
-                      context
-                          .read(shopItemNotifierProvider)
+                    if (formKey.currentState!.validate()) {
+                      ShopItem item =
+                          ShopItem(filter.state, ref.read(currentCategory));
+                      ref
+                          .read(shopItemNotifierProvider.notifier)
                           .event(AddEvent(item));
                       lp.state.addShopItem(item);
-                      context
-                          .read(shopListNotifierProvider)
+                      ref
+                          .read(shopListNotifierProvider.notifier)
                           .event(ListEvent.WriteEvent());
                       filter.state = '';
                       textController.clear();
@@ -56,7 +56,7 @@ class Body extends HookWidget {
                     }
                   },
                   validator: (value) {
-                    if (value.trim().isEmpty) {
+                    if (value!.trim().isEmpty) {
                       return S.of(context).error_empty_value;
                     }
                     return null;

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:ar_list/generated/l10n.dart';
+import 'package:flutter/material.dart';
 
 class Confirmation {
-  static show(BuildContext context, String msg, Function continueCallback,
-      Function cancelCallback) {
+  static show(BuildContext context, String msg,
+      void Function()? continueCallback, void Function()? cancelCallback) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(S.of(context).cancel),

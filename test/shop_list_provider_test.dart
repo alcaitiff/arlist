@@ -1,12 +1,20 @@
+import 'dart:io';
+
 import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_item.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:ar_list/repositories/shop_list_repository.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:path_provider_android/path_provider_android.dart';
+import 'package:path_provider_linux/path_provider_linux.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('ShopLists must be saved', () async {
+    if (Platform.isAndroid) PathProviderAndroid.registerWith();
+    if (Platform.isLinux) PathProviderLinux.registerWith();
+    WidgetsFlutterBinding.ensureInitialized();
     // Create some categories
     ShopListRepository repository = ShopListRepository.instance;
     final Set<ShopList> items = <ShopList>{};
@@ -39,11 +47,12 @@ void main() {
         ShopList('Lista 1').addEntry(e1).addEntry(e2).addEntry(e3).addEntry(e4);
     l2 = ShopList('Lista 2').addEntry(e2).addEntry(e2).addEntry(e5);
 
-    items..add(l1)..add(l2);
+    items
+      ..add(l1)
+      ..add(l2);
 
     repository.data = items;
     await repository.write();
-
     final Set<ShopList> fromFile = await repository.read();
 
     expect(fromFile.length, 2);

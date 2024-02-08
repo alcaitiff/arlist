@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:ar_list/business/ShopList/event.dart';
-import 'package:ar_list/services/compressor.dart';
-import 'package:hooks_riverpod/all.dart';
-
-import 'state.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/repositories/shop_list_repository.dart';
+import 'package:ar_list/services/compressor.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'state.dart';
 
 class ShopListNotifier extends StateNotifier<ShopListState> {
   final ShopListRepository _repository;
@@ -23,7 +23,7 @@ class ShopListNotifier extends StateNotifier<ShopListState> {
 
   Future<void> event(ShopListEvent event) async {
     state = ShopListFetchingState();
-    Set<ShopList> list;
+    Set<ShopList> list = new Set();
     try {
       if (event is ReadEvent) {
         list = await _repository.read();

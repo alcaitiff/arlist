@@ -1,10 +1,18 @@
+import 'dart:io';
+
 import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_item.dart';
 import 'package:ar_list/repositories/shop_item_repository.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:path_provider_android/path_provider_android.dart';
+import 'package:path_provider_linux/path_provider_linux.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('ShopItems must be saved', () async {
+    if (Platform.isAndroid) PathProviderAndroid.registerWith();
+    if (Platform.isLinux) PathProviderLinux.registerWith();
+    WidgetsFlutterBinding.ensureInitialized();
     ShopItemRepository repository = ShopItemRepository.instance;
     final Set<ShopItem> items = <ShopItem>{};
 

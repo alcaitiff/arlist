@@ -1,25 +1,22 @@
-import 'dart:convert';
-
 import 'package:ar_list/business/ShopList/event.dart';
 import 'package:ar_list/components/confirmation.dart';
+import 'package:ar_list/generated/l10n.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers.dart';
-import 'package:ar_list/services/compressor.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_list/generated/l10n.dart';
 import 'package:flutter/services.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Lists extends StatefulWidget {
+class Lists extends ConsumerStatefulWidget {
   final Set<ShopList> lists;
 
   Lists(this.lists);
 
   @override
-  _ListsWidgetState createState() => _ListsWidgetState(lists);
+  ConsumerState createState() => _ListsWidgetState(lists);
 }
 
-class _ListsWidgetState extends State<Lists> {
+class _ListsWidgetState extends ConsumerState<Lists> {
   final Set<ShopList> lists;
   final _biggerFont = TextStyle(fontSize: 18.0);
   static const platform = const MethodChannel('app.channel.shared.data');
@@ -34,31 +31,27 @@ class _ListsWidgetState extends State<Lists> {
 
   _init() async {
     SystemChannels.lifecycle.setMessageHandler((msg) {
-      //if (msg.contains('resumed')) {
-      _getSharedData().then((d) {
-        if (d == null || d.isEmpty) return;
-        // Your logic here
-        // E.g. at this place you might want to use Navigator to launch a new page and pass the shared data
+      return _getSharedData().then((d) {
+        if (d.isEmpty) return;
         addList(d);
+        return null;
       });
-      //}
-      return;
     });
 
     _getSharedData().then((d) => addList(d));
   }
 
   addList(Map listData) {
-    String text = (listData == null)
-        ? null
+    String? text = (listData == null)
+        ? ''
         : (listData["data"] == null)
             ? listData["text"]
             : listData["data"];
-    if (text != null) {
-      setState(() {
-        context.read(shopListNotifierProvider).event(ImportEvent(text));
-      });
-    }
+    setState(() {
+      if (text != null) {
+        ref.read(shopListNotifierProvider.notifier).event(ImportEvent(text));
+      }
+    });
   }
 
   Future<Map> _getSharedData() async =>
@@ -79,11 +72,11 @@ class _ListsWidgetState extends State<Lists> {
                 style: _biggerFont,
               ),
               onTap: () {
-                context.read(currentList).state = lists.elementAt(i);
+                ref.read(currentList.notifier).state = lists.elementAt(i);
                 Navigator.pushNamed(context, '/detail').whenComplete(() {
                   if (mounted) {
                     setState(() {
-                      context.read(filtersNotifierProvider).clear();
+                      ref.read(filtersNotifierProvider).clear();
                     });
                   } else {
                     //context.read(filtersNotifierProvider).clear();
@@ -135,12 +128,12 @@ class _ListsWidgetState extends State<Lists> {
   void copy(i) {
     ShopList list = lists.elementAt(i).clone();
     list.name += ' (' + S.of(context).copy_sufix + ')';
-    context.read(shopListNotifierProvider).event(AddEvent(list));
+    ref.read(shopListNotifierProvider.notifier).event(AddEvent(list));
   }
 
   void delete(i) {
     Confirmation.show(context, S.of(context).remove_list_confirmation, () {
-      context.read(shopListNotifierProvider).event(RemoveEvent(i));
+      ref.read(shopListNotifierProvider.notifier).event(RemoveEvent(i));
       Navigator.of(context).pop();
     }, () {
       Navigator.of(context).pop();

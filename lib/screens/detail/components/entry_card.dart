@@ -1,33 +1,36 @@
 import 'package:ar_list/business/ShopList/event.dart';
 import 'package:ar_list/components/category_modal.dart';
-import 'package:ar_list/components/confirmation.dart';
 import 'package:ar_list/components/quantity.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:ar_list/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
-import 'package:ar_list/generated/l10n.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class EntryCard extends HookWidget {
+class EntryCard extends HookConsumerWidget {
   final ShopListEntry item;
-  final StateProvider<ShopList> listProvider;
+  StateProvider<ShopList> listProvider;
 
   EntryCard(this.item, this.listProvider);
 
-  void toggleItem(ShopListEntry item, BuildContext context,
-      StateController provider, ShopList list, StateController filter) {
+  void toggleItem(
+      ShopListEntry item,
+      BuildContext context,
+      StateController<ShopList> provider,
+      ShopList list,
+      StateController<String> filter,
+      WidgetRef ref) {
     item.got = !item.got;
-    context.read(shopListNotifierProvider).event(WriteEvent());
+    ref.read(shopListNotifierProvider.notifier).event(WriteEvent());
     provider.state = list;
+    //SETCONTEXT
     filter.state += '';
   }
 
-  Widget build(BuildContext context) {
-    final provider = useProvider(listProvider);
-    final filter = useProvider(entryFilter);
-    final ShopList list = provider.state;
+  Widget build(BuildContext context, WidgetRef ref) {
+    StateController<ShopList> provider = ref.read(listProvider.notifier);
+    StateController<String> filter = ref.read(entryFilter.notifier);
+    ShopList list = provider.state;
     // final
     return Material(
         elevation: 5,
@@ -38,8 +41,9 @@ class EntryCard extends HookWidget {
             onTap: () {
               Quantity.show(context, '', (n) {
                 item.quantity = int.parse(n);
+                //SETCONTEXT
                 filter.state += '';
-                context.read(shopListNotifierProvider).event(WriteEvent());
+                ref.read(shopListNotifierProvider.notifier).event(WriteEvent());
                 Navigator.of(context).pop();
               }, () {
                 Navigator.of(context).pop();
@@ -54,7 +58,7 @@ class EntryCard extends HookWidget {
             Padding(
                 padding: EdgeInsets.only(left: 10),
                 child: Text(
-                  item.item.name,
+                  item.item!.name,
                   style: TextStyle(
                       color: item.got
                           ? Theme.of(context).disabledColor
@@ -64,26 +68,29 @@ class EntryCard extends HookWidget {
             Expanded(child: Text("")),
             TextButton(
                 child: Text(
-                    (item.item.category.name == '')
+                    (item.item?.category?.name == '')
                         ? ' - '
-                        : item.item.category.name,
+                        : item.item!.category!.name,
                     textAlign: TextAlign.right,
                     style: TextStyle(
                         color: Theme.of(context).disabledColor,
                         fontSize: 11,
                         fontStyle: FontStyle.italic)),
                 onPressed: () {
-                  CategoryModal.show(context, item.item.category, (value) {
-                    item.item.category = value;
+                  CategoryModal.show(context, item.item!.category, (value) {
+                    item.item!.category = value;
+                    //SETCONTEXT
                     filter.state += '';
-                    context.read(shopListNotifierProvider).event(WriteEvent());
+                    ref
+                        .read(shopListNotifierProvider.notifier)
+                        .event(WriteEvent());
                     Navigator.of(context).pop();
                   }, () {
                     Navigator.of(context).pop();
                   });
                 })
           ]),
-          onTap: () => toggleItem(item, context, provider, list, filter),
+          onTap: () => toggleItem(item, context, provider, list, filter, ref),
         ));
   }
 }

@@ -12,12 +12,10 @@ class ThemeManager {
   static ThemeData appTheme() {
     return ThemeData(
       primaryColor: Colors.white,
-      accentColor: Colors.orange,
       hintColor: Colors.white,
       dividerColor: Colors.white,
-      buttonColor: Colors.white,
       scaffoldBackgroundColor: Colors.black,
-      canvasColor: Colors.black,
+      canvasColor: Colors.black, colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.orange),
     );
   }
 }

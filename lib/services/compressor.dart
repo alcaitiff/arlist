@@ -1,11 +1,12 @@
 import 'dart:convert';
+
 import 'package:archive/archive.dart';
 
 class Compressor {
   String compress(String content) {
     var stringBytes = utf8.encode(content);
     var gzipBytes = GZipEncoder().encode(stringBytes);
-    var compressedString = base64.encode(gzipBytes);
+    var compressedString = base64.encode(gzipBytes!);
     return compressedString;
   }
 

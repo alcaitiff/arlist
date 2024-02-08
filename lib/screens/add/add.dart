@@ -3,13 +3,20 @@ import 'package:ar_list/providers.dart';
 import 'package:flutter/material.dart';
 import 'package:ar_list/screens/add/components/body.dart';
 import 'package:ar_list/generated/l10n.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AddScreen extends StatelessWidget {
+class AddScreen extends ConsumerStatefulWidget {
+  @override
+  ConsumerState createState() => _AddScreenState();
+}
+
+class _AddScreenState extends ConsumerState<AddScreen> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  _AddScreenState();
+
   @override
   Widget build(BuildContext context) {
-    ShopList _list = context.read(currentList).state;
+    ShopList _list = ref.watch(currentList);
     final listProvider = StateProvider<ShopList>((ref) => _list);
     return GestureDetector(
         child: Scaffold(

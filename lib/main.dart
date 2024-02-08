@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:ar_list/theme/style.dart';
 import 'package:ar_list/routes.dart';
+import 'package:ar_list/theme/style.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'generated/l10n.dart';
 
 void main() {
-  runApp(ARListApp());
+  runApp(ProviderScope(child: ARListApp()));
 }
 
 class ARListApp extends StatelessWidget {

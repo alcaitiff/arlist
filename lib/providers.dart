@@ -8,7 +8,7 @@ import 'package:ar_list/models/shop_list_entry.dart';
 import 'package:ar_list/repositories/category_repository.dart';
 import 'package:ar_list/repositories/shop_item_repository.dart';
 import 'package:ar_list/repositories/shop_list_repository.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final shopListRepositoryProvider = Provider<ShopListRepository>(
   (ref) => ShopListRepository.instance,
@@ -47,37 +47,36 @@ final categorySortType = StateProvider((ref) => SortType.alpha);
 final entryFilter = StateProvider((ref) => '');
 final entrySortType = StateProvider((ref) => SortType.alpha);
 
-final filteredEntries = Provider<List<ShopListEntry>>((ref) {
+final filteredEntries = Provider<List<ShopListEntry?>>((ref) {
   final filter = ref.watch(entryFilter);
-  final items = ref.watch(currentList).state.items;
+  final items = ref.watch(currentList).items;
   final sortType = ref.watch(entrySortType);
   final category = ref.watch(currentCategory);
-  if (items != null && items.length > 0) {
+  if (items.length > 0) {
     final result = items
-        .where((e) =>
-            e.item.name.toLowerCase().contains(filter.state.toLowerCase()))
+        .where(
+            (e) => e!.item!.name.toLowerCase().contains(filter.toLowerCase()))
         .where((e) {
-      return (e.item.category == null && category.state == null) ||
-          category.state == null ||
-          category.state.name == '' ||
-          e.item.category == null ||
-          e.item.category == category.state;
+      return (e!.item!.category == null && category == null) ||
+          category.name == '' ||
+          e!.item!.category == null ||
+          e!.item!.category == category;
     }).toList();
-    if (sortType.state == SortType.alpha) {
+    if (sortType == SortType.alpha) {
       result.sort((a, b) {
-        return a.item.name
+        return a!.item!.name
             .toLowerCase()
-            .compareTo(b.item.name.toString().toLowerCase());
+            .compareTo(b!.item!.name.toString().toLowerCase());
       });
-    } else if (sortType.state == SortType.inversedAlpha) {
+    } else if (sortType == SortType.inversedAlpha) {
       result.sort((a, b) {
-        return b.item.name
+        return b!.item!.name
             .toLowerCase()
-            .compareTo(a.item.name.toString().toLowerCase());
+            .compareTo(a!.item!.name.toString().toLowerCase());
       });
-    } else if (sortType.state == SortType.category) {
+    } else if (sortType == SortType.category) {
       result.sort((a, b) {
-        return a.compareTo(b);
+        return a!.compareTo(b);
       });
     }
     return result;
@@ -105,8 +104,11 @@ final filtersNotifierProvider = Provider<FilterController>((ref) {
   final _categoryFilter = ref.watch(categoryFilter);
   final _shopItemFilter = ref.watch(shopItemFilter);
   final _currentCategory = ref.watch(currentCategory);
-  return FilterController(
-      [_entryFilter, _categoryFilter, _shopItemFilter], _currentCategory);
+  return FilterController([
+    new StateController(_entryFilter),
+    new StateController(_categoryFilter),
+    new StateController(_shopItemFilter)
+  ], new StateController(_currentCategory));
 });
 
 final filteredShopItems = Provider<List<ShopItem>>((ref) {
@@ -114,26 +116,23 @@ final filteredShopItems = Provider<List<ShopItem>>((ref) {
   final category = ref.watch(currentCategory);
   final items = ref.watch(shopItemRepositoryProvider).data;
   final sortType = ref.watch(shopItemSortType);
-  if (items != null && items.length > 0) {
+  if (items.length > 0) {
     final result = items
-        .where((item) =>
-            item.name.toLowerCase().contains(filter.state.toLowerCase()))
+        .where((item) => item.name.toLowerCase().contains(filter.toLowerCase()))
         .where((item) {
-      return (item.category == null && category.state == null) ||
-          category.state == null ||
-          category.state.name == '' ||
-          item.category == null ||
-          item.category == category.state;
+      return (item.category == null && category == null) ||
+          category.name == '' ||
+          item.category == category;
     }).toList();
-    if (sortType.state == SortType.alpha) {
+    if (sortType == SortType.alpha) {
       result.sort((a, b) {
         return a.name.toLowerCase().compareTo(b.name.toString().toLowerCase());
       });
-    } else if (sortType.state == SortType.inversedAlpha) {
+    } else if (sortType == SortType.inversedAlpha) {
       result.sort((a, b) {
         return b.name.toLowerCase().compareTo(a.name.toString().toLowerCase());
       });
-    } else if (sortType.state == SortType.category) {
+    } else if (sortType == SortType.category) {
       result.sort((a, b) {
         return a.compareTo(b);
       });
@@ -149,17 +148,16 @@ final filteredCategories = Provider<List<Category>>((ref) {
   final items = ref.watch(categoryRepositoryProvider).data;
   final sortType = ref.watch(categorySortType);
 
-  if (items != null && items.length > 0) {
+  if (items.length > 0) {
     final result = items
-        .where((item) =>
-            item.name.toLowerCase().contains(filter.state.toLowerCase()))
+        .where((item) => item.name.toLowerCase().contains(filter.toLowerCase()))
         .where((item) => item.name != '')
         .toList();
-    if (sortType.state == SortType.alpha) {
+    if (sortType == SortType.alpha) {
       result.sort((a, b) {
         return a.compareTo(b);
       });
-    } else if (sortType.state == SortType.inversedAlpha) {
+    } else if (sortType == SortType.inversedAlpha) {
       result.sort((a, b) {
         return b.compareTo(a);
       });

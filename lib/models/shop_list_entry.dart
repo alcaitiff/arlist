@@ -5,7 +5,7 @@ part 'shop_list_entry.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class ShopListEntry implements Comparable {
-  ShopItem item;
+  ShopItem? item;
   bool got = false;
   num quantity = 1;
 
@@ -18,10 +18,10 @@ class ShopListEntry implements Comparable {
 
   @override
   int compareTo(other) {
-    if (this.item == null || other.item == null) {
+    if (other.item == null) {
       return -1;
     } else {
-      return this.item.compareTo(other.item);
+      return this.item!.compareTo(other.item);
     }
   }
 

@@ -18,31 +18,33 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  intl: ^0.17.0-nullsafety.2
-  cupertino_icons: ^1.0.2
-  path_provider: ^1.6.24
-  json_annotation: ^3.1.1
-  flutter_hooks: ^0.14.0
-  hooks_riverpod: ^0.12.1
-  flutter_typeahead: ^2.0.0
-  archive: ^2.0.13
-  share: ^0.6.5+4
+  intl:
+  cupertino_icons: ^1.0.6
+  path_provider:
+  json_annotation: ^4.7.0
+  flutter_hooks:
+  hooks_riverpod:
+  flutter_typeahead:
+  archive: 3.4.10
+  share:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_launcher_icons: "^0.8.1"
+  flutter_launcher_icons:
+  custom_lint:
+  riverpod_lint:
   integration_test:
     sdk: flutter
-  build_runner: ^1.10.11
-  json_serializable: ^3.5.1
-  test: ^1.15.7
+  build_runner:
+  json_serializable: ^6.5.4
+  test:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.

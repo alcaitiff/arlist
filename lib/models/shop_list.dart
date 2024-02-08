@@ -7,7 +7,7 @@ part 'shop_list.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ShopList {
   String name;
-  Set<ShopListEntry> items = <ShopListEntry>{};
+  Set<ShopListEntry?> items = <ShopListEntry>{};
 
   ShopList(this.name);
 
@@ -21,7 +21,7 @@ class ShopList {
   }
 
   bool contains(ShopItem item) {
-    return this.items.map((e) => e.item).contains(item);
+    return this.items.map((e) => e!.item).contains(item);
   }
 
   ShopList addEntry(ShopListEntry entry) {
@@ -30,7 +30,7 @@ class ShopList {
   }
 
   ShopList removeShopItem(ShopItem item) {
-    this.items.removeWhere((e) => e.item == item);
+    this.items.removeWhere((e) => e!.item == item);
     return this;
   }
 

@@ -6,7 +6,7 @@ part 'shop_item.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ShopItem implements Comparable {
   String name;
-  Category category;
+  Category? category;
 
   ShopItem(this.name, this.category);
 
@@ -23,7 +23,7 @@ class ShopItem implements Comparable {
           .toLowerCase()
           .compareTo(other.name.toString().toLowerCase());
     } else {
-      return this.category.compareTo(other.category);
+      return this.category!.compareTo(other.category);
     }
   }
 

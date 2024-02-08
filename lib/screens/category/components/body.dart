@@ -1,23 +1,23 @@
 import 'package:ar_list/business/Category/event.dart';
+import 'package:ar_list/generated/l10n.dart';
 import 'package:ar_list/models/category.dart';
 import 'package:ar_list/providers.dart';
 import 'package:ar_list/screens/category/components/category_card.dart';
 import 'package:ar_list/screens/category/components/tool_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_list/generated/l10n.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Body extends HookWidget {
+class Body extends HookConsumerWidget {
   final GlobalKey<FormState> formKey;
 
   Body(this.formKey);
   @override
-  Widget build(BuildContext context) {
-    List<Category> list = context.read(filteredCategories);
+  Widget build(BuildContext context, WidgetRef ref) {
+    List<Category> list = ref.watch(filteredCategories);
     final textController = useTextEditingController();
-    final filter = useProvider(categoryFilter);
-    final sortType = useProvider(categorySortType);
+    StateController<String> filter = ref.read(categoryFilter.notifier);
+    SortType sortType = ref.watch(categorySortType);
     return Consumer(builder: (context, watch, child) {
       return new Form(
           key: formKey,
@@ -34,10 +34,10 @@ class Body extends HookWidget {
                     filter.state = newValue.trim();
                   },
                   onEditingComplete: () {
-                    if (formKey.currentState.validate()) {
+                    if (formKey.currentState!.validate()) {
                       Category item = Category(filter.state.trim());
-                      context
-                          .read(categoryNotifierProvider)
+                      ref
+                          .read(categoryNotifierProvider.notifier)
                           .event(AddEvent(item));
                       filter.state = '';
                       textController.clear();
@@ -45,7 +45,7 @@ class Body extends HookWidget {
                     }
                   },
                   validator: (value) {
-                    if (value.trim().isEmpty) {
+                    if (value!.trim().isEmpty) {
                       return S.of(context).error_empty_value;
                     }
                     return null;

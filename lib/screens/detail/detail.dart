@@ -1,21 +1,21 @@
+import 'dart:convert';
+
 import 'package:ar_list/models/category.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers.dart';
+import 'package:ar_list/screens/detail/components/body.dart';
 import 'package:ar_list/services/compressor.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_list/screens/detail/components/body.dart';
-import 'package:ar_list/generated/l10n.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:share/share.dart';
-import 'dart:convert';
 
-class DetailScreen extends StatefulWidget {
+class DetailScreen extends ConsumerStatefulWidget {
   @override
-  _DetailScreenState createState() => _DetailScreenState();
+  ConsumerState createState() => _DetailScreenState();
 }
 
-class _DetailScreenState extends State<DetailScreen> {
-  ShopList _list;
+class _DetailScreenState extends ConsumerState<DetailScreen> {
+  late ShopList _list;
   bool pushed = false;
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
@@ -31,13 +31,16 @@ class _DetailScreenState extends State<DetailScreen> {
 
   addAndClearFilters(BuildContext context) {
     Navigator.pushNamed(context, '/add').whenComplete(() => setState(() {
-          context.read(filtersNotifierProvider).clear();
+          ref.read(entryFilter.notifier).state = '';
+          ref.read(currentCategory.notifier).state = Category('');
+          ref.read(filtersNotifierProvider).clear();
+          Navigator.popAndPushNamed(context, '/detail');
         }));
   }
 
   @override
   Widget build(BuildContext context) {
-    _list = context.read(currentList).state;
+    _list = ref.watch(currentList);
     if (_list.items.isEmpty && !pushed) {
       pushed = true;
       Future.microtask(() => addAndClearFilters(context));

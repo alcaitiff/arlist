@@ -1,15 +1,14 @@
 import 'package:ar_list/components/category_dropdown.dart';
+import 'package:ar_list/generated/l10n.dart';
 import 'package:ar_list/models/category.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_list/generated/l10n.dart';
-import 'package:flutter/services.dart';
 
 class CategoryModal {
   static show(
     BuildContext context,
-    Category value,
+    Category? value,
     Function continueCallback,
-    Function cancelCallback,
+    Function()? cancelCallback,
   ) {
     Key key = Key(value.hashCode.toString());
     // set up the buttons

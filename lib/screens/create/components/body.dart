@@ -1,28 +1,28 @@
 import 'package:ar_list/business/ShopList/event.dart';
+import 'package:ar_list/generated/l10n.dart';
 import 'package:ar_list/models/shop_list.dart';
 import 'package:ar_list/providers.dart';
 import 'package:ar_list/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:ar_list/generated/l10n.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Body extends StatefulWidget {
+class Body extends ConsumerStatefulWidget {
   final ShopList _list;
   Body(this._list);
   @override
-  _BodyWidgetState createState() => _BodyWidgetState();
+  ConsumerState createState() => _BodyWidgetState();
 }
 
-class _BodyWidgetState extends State<Body> {
+class _BodyWidgetState extends ConsumerState<Body> {
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   _BodyWidgetState();
 
   void submit() {
-    if (_formKey.currentState.validate()) {
-      context.read(shopListNotifierProvider).event(AddEvent(widget._list));
+    if (_formKey.currentState!.validate()) {
+      ref.read(shopListNotifierProvider.notifier).event(AddEvent(widget._list));
       Navigator.pop(context);
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: routes['/']));
+          context, MaterialPageRoute(builder: routes['/']!));
     }
   }
 
@@ -51,7 +51,7 @@ class _BodyWidgetState extends State<Body> {
                       submit();
                     },
                     validator: (value) {
-                      if (value.trim().isEmpty) {
+                      if (value!.trim().isEmpty) {
                         return S.of(context).error_empty_value;
                       }
                       return null;

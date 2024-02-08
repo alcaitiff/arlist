@@ -5,10 +5,8 @@ import 'package:ar_list/repositories/json_repository.dart';
 
 class CategoryRepository {
   static const fileName = 'category.json';
-  static final CategoryRepository instance = CategoryRepository._();
-  Set<Category> data;
-
-  CategoryRepository._();
+  static final CategoryRepository instance = new CategoryRepository();
+  late Set<Category> data;
 
   Future<Set<Category>> read() async {
     try {
@@ -26,25 +24,16 @@ class CategoryRepository {
   }
 
   Future<Set<Category>> add(Category item) async {
-    if (this.data == null) {
-      await this.read();
-    }
     this.data.add(item);
     return this.write();
   }
 
   Future<Set<Category>> removeAt(int i) async {
-    if (this.data == null) {
-      await this.read();
-    }
     this.data.remove(this.data.elementAt(i));
     return this.write();
   }
 
   Future<Set<Category>> remove(Category item) async {
-    if (this.data == null) {
-      await this.read();
-    }
     this.data.remove(item);
     return this.write();
   }
