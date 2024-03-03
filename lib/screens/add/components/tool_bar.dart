@@ -50,6 +50,7 @@ class Toolbar extends HookConsumerWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/category').whenComplete(() {
                   filter.state += '';
+                  Navigator.popAndPushNamed(context, '/add');
                 });
               }),
           Tooltip(
